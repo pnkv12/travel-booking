@@ -40,14 +40,14 @@ class NewsController extends Controller
             'content'     => 'required|min:160',
             'category_id' => 'required'
         ]);
-        
+
         $news['author'] = auth()->user()->id;
         $news['created_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
         $news['is_shown'] = 0;
-        
-        dd($news);
+
+        //dd($news);
         try {
-            $this->__news->addNews($news);
+            $this->__news->addNew($news);
         } catch (Exception $ex) {
             $ex->getMessage();
         }
