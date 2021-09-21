@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans";
+    display: grid;
+    place-content: center;
+    text-align: center;
+}
+
+.box {
+    border-radius: 24px;
+    width: 300px;
+    padding: 0px 40px 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #3b3b3b;
+}
+
+.form-header {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    color: #fda500;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: -20px -40px 10px;
+    font-family: "Open Sans", monospace;
+    /* background: rgb(212, 48, 48); */
+}
+
+.form-header h2 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: x-large;
+}
+
+h1 {
+    top: 50%;
+    color: #3b3b3b;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-family: "Open Sans", monospace;
+    position: relative;
+    width: max-content;
+    text-align: center;
+}
+
+h1::before,
+h1::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+h1::before {
+    background: #f0ecd6;
+    animation: typewriter 3s steps(15) 1s forwards;
+}
+h1::after {
+    width: 0.125em;
+    background: black;
+    animation: typewriter 3s steps(15) 1s forwards,
+        blink 750ms steps(15) infinite;
+}
+
+@keyframes typewriter {
+    to {
+        left: 100%;
+    }
+}
+@keyframes blink {
+    to {
+        background: transparent;
+    }
+}
+
+.box input[type="text"],
+.box input[type="password"],
+.box input[type="email"],
+.box input[type="tel"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 5px auto;
+    border: 2px solid #fda500;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus,
+.box input[type="email"]:focus,
+.box input[type="tel"]:focus {
+    width: 280px;
+    border-color: #f1f1f1;
+}
+
+.box button[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #fda500;
+    padding: 14px 40px;
+    outline: none;
+    color: rgb(240, 237, 196);
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+    font-family: "Open Sans", monospace;
+}
+
+.box button[type="submit"]:hover {
+    background: #814d10;
+}
+
+.text-validation {
+    color: rgb(255, 0, 0);
+    font-size: smaller;
+}
+
+a {
+    color: white;
+    font-family: "Open Sans", monospace;
+    bottom: 20%;
+}
+::placeholder {
+    color: rgb(240, 237, 196);
+    opacity: 1;
+}
