@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 
 <head>
     <title>Login to System</title>
@@ -9,24 +10,36 @@
 
 <body>
     <div>
-        <h1>Welcome to OFL!</h1>
+        <h1 style="color: #fda500;">Welcome to OFL!</h1>
         <form class="box" method="POST" action="{{ route('user.postLogin') }}">
             @csrf
             <div class="form-header" style="margin-top: 30px;">
                 <h2>Login</h2>
             </div>
             <div>
-                <input type="text" name="username" placeholder="Username"> <br>
-                <input type="password" name="password" placeholder="Password"> <br>
+                <input type="text" name="username" placeholder="Username" autocomplete="off">
+                @error('username')
+                <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+                @enderror
+                <br>
+                <input type="password" name="password" placeholder="Password" autocomplete="off">
+                @error('password')
+                <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+                @enderror
+                <br>
                 @if (session('status'))
-                <label class="text-validation">{{ session('status') }}</label>
+                <label class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ session('status') }}</label>
                 @endif
-                <button type="submit">Log In</button>
-                <a href="{{ route('user.signup') }}">Not have an account yet? Sign up here</a>
+                <button type="submit">Login</button>
+                <p style="color: white; font-family: 'Open Sans', monospace;">Not have an account yet? <span><a href="{{ route('user.signup') }}">Sign up</a></span></p>
             </div>
-
         </form>
     </div>
 </body>
+<!-- include libs -->
+<script src="{{asset('assets/js/jquery.min.js')}}"></script>
+<script src="{{asset('assets/libs/bootstrap/js/bootstrap.min.js')}}"></script>
+@yield('_js')
+<script src="{{asset('assets/js/main.js')}}"></script>
 
 </html>

@@ -1,10 +1,12 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Open Sans";
+    font-family: "Open Sans", monospace;
     display: grid;
     place-content: center;
     text-align: center;
+    background-color: cadetblue;
+    /* background-color: black; */
 }
 
 .box {
@@ -35,9 +37,10 @@ body {
     font-size: x-large;
 }
 
+
 h1 {
     top: 50%;
-    color: #3b3b3b;
+    color: #fda500;
     text-transform: uppercase;
     font-weight: 500;
     font-family: "Open Sans", monospace;
@@ -57,12 +60,12 @@ h1::after {
 }
 
 h1::before {
-    background: #f0ecd6;
+    background: black;
     animation: typewriter 3s steps(15) 1s forwards;
 }
 h1::after {
     width: 0.125em;
-    background: black;
+    background: #fda500;
     animation: typewriter 3s steps(15) 1s forwards,
         blink 750ms steps(15) infinite;
 }
@@ -125,7 +128,7 @@ h1::after {
 
 .text-validation {
     color: rgb(255, 0, 0);
-    font-size: smaller;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 a {

@@ -17,15 +17,17 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    protected $table = 'users'; 
+    protected $table = 'users';
 
     protected $fillable = [
         'id',
         'fullname',
         'email',
         'password',
+        'password_confirmation',
         'phone',
-        'is_new'
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -47,21 +49,80 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Add new account into database
     public function regUser($user)
     {
         return $this->insert($user);
     }
 
-    public function getList() 
+    //Show a list of admin's contacts
+    public function getList($search)
     {
         $data = $this->select(
             'id',
             'fullname',
+            'username',
             'email',
-            'phone',
-            'is_new'
+            'phone'
         );
+        if (!empty($search['query'])) {
+            $data->where('fullname', 'LIKE', '%' . $search['query'] . '%')
+                ->orWhere('id', '=', $search['query'])
+                ->orWhere('username', 'LIKE', '%' . $search['query'] . '%');
+        }
         return $data->paginate(5);
+    }
 
+    //Show each Admin's data
+    public function viewProfile($id)
+    {
+        $data = $this->select(
+            'id',
+            'username',
+            'fullname',
+            'email',
+            'phone'
+        )
+            ->where('id', $id);
+        return $data->first();
+    }
+
+    //Show data in edit page
+    public function getUserById($id)
+    {
+        $data = $this->select(
+            'id',
+            'username',
+            'fullname',
+            'email',
+            'phone'
+        )
+            ->where('id', $id);
+        return $data->first();
+    }
+
+    public function updateAdmin($update)
+    {
+        return $this->where('id', $update['id'])
+            ->update($update);
+    }
+
+    //Open admin's change password page
+    public function getUserPassword($id)
+    {
+        $data = $this->select(
+            'id',
+            'username',
+            'password',
+            'password_confirmation'
+        )
+            ->where('id', $id);
+        return $data->first();
+    }
+
+    public function updatePw($update)
+    {
+        return $this->where('id', $update['id'])
+            ->update($update);
     }
 }

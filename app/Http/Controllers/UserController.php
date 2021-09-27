@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     use AuthenticatesUsers;
-    
+
     protected $__user;
 
     public function __construct(User $user)
@@ -21,46 +23,55 @@ class UserController extends Controller
         $this->__user = $user;
     }
 
+    /* 
+        Open signup page
+    */
     public function signupAction()
     {
         return view('user.signup-form');
     }
 
-    public function confirmSignUpAction(Request $request)
+    /* 
+        Confirm Signup
+    */
+    public function confirmSignUpAction(RegisterRequest $request)
     {
-        $user             = $request->except('_token');
-        $user['password'] = Hash::make($user['password']);
+        $user               = $request->except('_token');
+        $user['password']   = Hash::make($user['password']);
+        $user['created_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
 
         $request->validate([
             'fullname'    => 'required',
-            'email'       => 'required',
-            'username'    => 'required|min:6|max:12',
+            'email'       => 'required|email',
+            'username'    => 'required|unique:users|min:6|max:12',
             'password'    => 'required|min:6',
             'phone'       => 'required|digits:10',
         ]);
 
-        try
-        {
+        try {
             $this->__user->regUser($user);
-        }
-        catch(Exception $ex)
-        {
+        } catch (Exception $ex) {
             return $ex->getMessage();
         }
         return redirect()->route('user.login');
     }
 
+    /* 
+        Open login page
+    */
     public function loginAction()
     {
 
-        if(!empty(auth()->user())){
+        if (!empty(auth()->user())) {
             return redirect()->route('user.index');
-        }
-        else{
+        } else {
             return view('user.login-form');
         };
     }
 
+    /* 
+        Confirm login
+    */
     public function postLoginAction(LoginRequest $request)
     {
         $login = [
@@ -71,25 +82,129 @@ class UserController extends Controller
         if (Auth::attempt($login)) {
             return redirect()->route('user.index');
         } else {
-            return redirect()->back()->with('status','Email or Password is incorrect.');
+            return redirect()->back()->with('status', 'Username or Password is incorrect.');
         }
     }
 
-
+    /* 
+        Admin Dashboard
+    */
     public function indexAction()
     {
         return view('user.index');
     }
 
+    /* 
+        Logout
+    */
     public function logoutAction()
     {
         Auth::logout();
         return redirect('/login');
     }
 
-    public function viewAction()
+    /* 
+        Show Admin contacts list
+    */
+    public function viewAction(Request $request)
     {
-        $data = $this->__user->getList();
+        $search = $request->all();
+        $data   = $this->__user->getList($search);
+
         return view('user.list', ['data' => $data]);
+    }
+
+    /* 
+        Show each Admin's profile
+        Authorized
+    */
+    public function profileAction(Request $request)
+    {
+        $id = $request->id;
+        $id = Auth::id();
+        $data = $this->__user->viewProfile($id);
+
+        return view('user.profile', ['data' => $data]);
+    }
+
+    /* 
+        Show edit page for Admin's profile
+        Authorized
+    */
+    public function editAdAction(Request $request)
+    {
+        $id   = $request->id;
+        $id = Auth::id();
+        $data = $this->__user->getUserById($id);
+
+        return view('user.edit', ['data' => $data]);
+    }
+
+    /* 
+        Update Admin's profile
+    */
+    public function updateAction(Request $request)
+    {
+        $user               = $request->except('_token');
+        $user['updated_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
+
+        $request->validate([
+            'fullname' => 'required',
+            'email'    => 'required|email',
+            'phone'    => 'required|digits:10'
+        ]);
+        try {
+            $this->__user->updateAdmin($user);
+        } catch (Exception $ex) {
+            return response()->json([
+                'error'   => true,
+                'message' => $ex->getMessage()
+            ]);
+        }
+        return response()->json([
+            'error'   => false,
+            'message' => "Yippi~ Your info has been updated!"
+        ]);
+    }
+
+    /* 
+        Change password in an admin account
+        Authorized
+    */
+    public function changePWAction(Request $request)
+    {
+        $id   = $request->id;
+        $id = Auth::id();
+        $data = $this->__user->getUserPassword($id);
+
+        return view('user.password', ['data' => $data]);
+    }
+
+    /* 
+        Confirm password change
+    */
+    public function confirmPWAction(Request $request)
+    {
+        $user               = $request->except('_token');
+        $user['password']   = Hash::make($user['password']);
+        $user['password_confirmation'] = Hash::make($user['password_confirmation']);
+        $user['updated_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
+
+        $request->validate([
+            'password'              => 'required|confirmed|min:6',
+            'password_confirmation' => 'min:6',
+        ]);
+        try {
+            $this->__user->updatePw($user);
+        } catch (Exception $ex) {
+            return response()->json([
+                'error'   => true,
+                'message' => $ex->getMessage()
+            ]);
+        }
+        return response()->json([
+            'error'   => false,
+            'message' => "Your password changed!"
+        ]);
     }
 }

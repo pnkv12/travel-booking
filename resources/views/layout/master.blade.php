@@ -1,5 +1,6 @@
 <?php
-$username = auth()->user()->username; //KT khi sign in qua auth
+$username = auth()->user()->username;
+$id = auth()->user()->id; //KT khi sign in qua auth
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +10,7 @@ $username = auth()->user()->username; //KT khi sign in qua auth
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Dashboard</title>
     <link rel="icon" href="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin-style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/fontawesome-free/css/fontawesome.css') }}" rel="stylesheet">
@@ -17,6 +19,18 @@ $username = auth()->user()->username; //KT khi sign in qua auth
     <style>
         .w-5 {
             display: none;
+        }
+
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
         }
     </style>
 </head>
@@ -32,8 +46,11 @@ $username = auth()->user()->username; //KT khi sign in qua auth
                             Hi, <span class="text-light font-weight-bold">{{$username}}</span>!
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#"><i class="fas fa-key"></i> Change Password</a>
-                            <a class="dropdown-item red" href="{{ route('user.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            <a class="dropdown-item" href="{{ route('admin.profile', $id) }}"><i class="fas fa-user"></i> Profile</a>
+                            <a class="dropdown-item" href="{{ route('admin.changepw', $id) }}"><i class="fas fa-key"></i> Change Password</a>
+
+                            <hr class="my-2">
+                            <a class="dropdown-item error" href="{{ route('user.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +66,7 @@ $username = auth()->user()->username; //KT khi sign in qua auth
                             <a class="nav-link text-white font-weight-bold" href="{{ route( 'news.list' ) }}">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="#">Tours</a>
+                            <a class="nav-link text-white font-weight-bold" href="{{ route( 'tours.list' ) }}">Tours</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white font-weight-bold" href="{{ route('admin.list') }}">Contacts</a>
@@ -59,29 +76,82 @@ $username = auth()->user()->username; //KT khi sign in qua auth
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <!-- <a class="nav-link text-white font-weight-bold" href="#">Booking Query</a> -->
-                            <button class="btn btn-light my-2 my-sm-0 font-weight-bold" href="#">Booking Query</button>
+                            <button class="btn btn-light my-2 my-sm-0 font-weight-bold" href="#">Booking Tickets</button>
                         </li>
                     </ul>
                 </div>
             </nav>
     </main>
     @yield('content')
-    <footer class="container-fluid bg-dark" style="height: 100px;">
+    <footer class="text-center text-lg-start bg-dark text-light">
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <div class="me-5 d-none d-lg-block">
+                <span>Applying Laravel in developing Travel Website</span>
+            </div>
+            <div>
+                <span>FPT Greenwich</span>
+            </div>
+        </section>
+        <!-- Section: Info  -->
+        <section>
+            <div class="container text-center text-md-start mt-5">
+                <div class="row mt-3">
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3"></i> About Project
+                        </h6>
+                        <p>After the pandemic, local travel industry is going to need a boost. The idea of this project is to create a promoting website for domestic tourism.</p>
+                    </div>
+
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">Language Used</h6>
+                        <p>Laravel</p>
+                        <p>Boostrap</p>
+                    </div>
+
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Project Components
+                        </h6>
+                        <p>
+                            <a href="{{route('user.index')}}" class="text-reset">CMS</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">VietnamGo's homepage</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Student Info -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Contacts
+                        </h6>
+                        <p>Pham Ngoc Khanh Vy</p>
+                        <p>GCS190289</p>
+                        <p><i class="fas fa-home me-3"></i> Ho Chi Minh, Vietnam</p>
+                        <p>
+                            <i class="fas fa-envelope me-3"></i>
+                            vypnkgcs190289@fpt.edu.vn
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="{{ asset('
+            assets / js / vendor / jquery - slim.min.js ') }}"><\/script>')
+    </script>
+    <script src="{{ asset('assets/js/vendor/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    @yield('after_script')
 </body>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script>
-    window.jQuery || document.write('<script src="{{ asset('
-        assets / js / vendor / jquery - slim.min.js ') }}"><\/script>')
-</script>
-<script src="{{ asset('assets/js/vendor/popper.min.js') }}"></script>
-<script src="{{ asset('assets/libs/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-<script>
-    //javascript here
-</script>
 
 </html>

@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="assets/css/login-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
@@ -16,14 +15,28 @@
             </div>
             @csrf
             <input type="text" name="fullname" placeholder="Your full name...">
+            @error('fullname')
+            <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+            @enderror
             <input type="email" name="email" placeholder="Email">
-            <input type="text" name="username" placeholder="Username about 6-12 characters">
-            <input type="password" name="password" placeholder="Password min 6 characters">
+            @error('email')
+            <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+            @enderror
+            <input type="text" name="username" placeholder="Username (6-12 characters)">
+            @error('username')
+            <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+            @enderror
+            <input type="password" name="password" placeholder="Password at least 6 characters">
+            @error('password')
+            <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+            @enderror
             <input type="tel" name="phone" placeholder="Phone number">
-            <input type="hidden" name="is_new" value="0">
-
+            @error('phone')
+            <div class="text-validation" style="font-family: Arial, Helvetica, sans-serif;">{{ $message }}</div>
+            @enderror
             <button type="submit">Signup</button>
-            <a href="{{ route('user.login') }}">Already have an account? Let's Login!</a>
+            <p style="color: white; font-family: 'Open Sans', monospace;">Already have one? <span><a href="{{ route('user.login') }}">Let's Login!</a></span></p>
+            
         </form>
     </div>
 </body>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ToursController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,30 +31,32 @@ Route::group(
         Route::get('/logout', [UserController::class, 'logoutAction'])->name('user.logout');
 
         Route::prefix('admin')->group(function() {
-            Route::get('/list', [UserController::class, 'viewAction'])->name('admin.list'); 
+            Route::get('/', [UserController::class, 'viewAction'])->name('admin.list');
+            Route::get('profile/{id}', [UserController::class, 'profileAction'])->name('admin.profile');
+            Route::get('edit/{id}', [UserController::class, 'editAdAction'])->name('admin.edit');
+            Route::post('update', [UserController::class, 'updateAction'])->name('admin.update');
+            Route::get('changepassword/{id}', [UserController::class, 'changePWAction'])->name('admin.changepw');
+            Route::post('confirmchange', [UserController::class, 'confirmPWAction'])->name('admin.confirmchange');
         });
         Route::prefix('news')->group(function() {
-            Route::get('/list', [NewsController::class, 'newsListAction'])->name('news.list');
-            Route::get('/add',  [NewsController::class, 'addAction'])->name('news.add');
-            Route::post('/store',  [NewsController::class, 'storeAction'])->name('news.store');
+            Route::get('/', [NewsController::class, 'newsListAction'])->name('news.list');
+            Route::get('add', [NewsController::class, 'addAction'])->name('news.add');
+            Route::post('store', [NewsController::class, 'storeAction'])->name('news.store');
+            Route::get('details/{id}', [NewsController::class, 'viewNewsAction'])->name('news.details');
+            Route::get('edit/{id}', [NewsController::class, 'editAction'])->name('news.edit');
+            Route::post('update', [NewsController::class, 'updateAction'])->name('news.update');
+            Route::delete('delete/{id}', [NewsController::class, 'deleteAction'])->name('news.delete');
         });
 
+        Route::prefix('tours')->group(function() {
+            Route::get('/', [ToursController::class, 'tourListAction'])->name('tours.list');
+            Route::get('add', [ToursController::class, 'addAction'])->name('tours.add');
+            Route::post('store', [ToursController::class, 'storeAction'])->name('tours.store');
+            Route::get('details/{id}', [ToursController::class, 'viewTourAction'])->name('tours.details');
+            Route::get('edit/{id}', [ToursController::class, 'editAction'])->name('tours.edit');
+            Route::post('update', [ToursController::class, 'updateAction'])->name('tours.update');
+            Route::delete('delete/{id}', [ToursController::class, 'deleteAction'])->name('tours.delete');
+        });
     }
 );
-
-// Route::group(
-//     [
-//         'middleware' => ['web', 'auth']
-//     ],
-//     function () {
-
-//         Route::prefix('admin')->group(function() {
-//             Route::get('/', 'BookController@indexAction')->name('admin.index');
-//             Route::get('add','BookController@addAction')->name('admin.add');
-//             Route::post('store','BookController@storeBookAction')->admin('book.store');
-//             Route::get('edit/{id}','BookController@editAction')->admin('book.edit');
-//             Route::get('update/{id}','BookController@updateAction')->name('admin.update');
-//         });
-//     }
-// );
 

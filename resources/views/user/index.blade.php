@@ -8,23 +8,23 @@
     </div>
     <hr class="my-3">
     <!--Content-->
-    <div style="padding-top: 15px">
+    <div style="padding-top:15px;">
         <!--Search & Tours-->
         <div class="row">
             <div class="col-sm-6" style="padding-bottom: 20px">
                 <div class="card text-center">
                     <div class="card-body bg-light">
                         <a href="#" class="text-dark">
-                            <h5 class="card-title font-weight-bold"><i class="fas fa-search"></i> Search</h5>
+                            <h5 class="card-title font-weight-bold"><i class="fas fa-list-ul"></i> Tickets</h5>
                         </a>
-                        <p class="card-text">Go to search panel</p>
+                        <p class="card-text">Checkout customer's booking tickets</p>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="card text-center">
                     <div class="card-body bg-light">
-                        <a href="#" class="text-dark">
+                        <a href="{{ route( 'tours.add' ) }}" class="text-dark">
                             <h5 class="card-title font-weight-bold"><i class="fab fa-font-awesome-flag"></i> Tours</h5>
                         </a>                       
                         <p class="card-text">Create new tour packages</p>
