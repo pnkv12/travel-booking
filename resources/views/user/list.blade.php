@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-<section style="height: 470px;">
+<section style="height: 35em;">
     <div class="d-flex justify-content-between">
         <div>
             <h2 class="mb-3" style="padding-top: 15px;">Contacts</h2>
@@ -9,7 +9,7 @@
             <form method="GET" action="" class="form-group">
                 <div class="form-row">
                     <div class="input-group rounded">
-                        <input type="text" name="query" class="form-control rounded" placeholder="Search" aria-describedby="search-addon"/>
+                        <input type="text" name="query" class="form-control rounded" placeholder="Search" aria-describedby="search-addon" />
                         <span id="search-addon">
                             <button type="submit" class="btn btn-link text-info"><i class="fas fa-search"></i></button>
                         </span>
@@ -21,6 +21,9 @@
     </div>
 
     <hr class="my-3">
+    <?php
+    $username = auth()->user()->username;
+    ?>
     <div class="table-content" style="padding-top: 9px;">
         <table class="table table-striped">
             <thead class="bg-info text-light text-center">
@@ -29,9 +32,12 @@
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
+                @if ($username === 'pnkv12')
+                <th></th>
+                @endif
             </thead>
             <tbody>
-                @if(!empty($data))
+                @if(isset($data))
                 @foreach($data as $item)
                 <tr>
                     <td scope="row" class="text-center">{{$item['id']}}</td>
@@ -39,16 +45,90 @@
                     <td scope="row">{{$item['username']}}</td>
                     <td scope="row"> <a href="#">{{$item['email']}}</a></td>
                     <td scope="row">{{$item['phone']}}</td>
+
+                    @if ($username === 'pnkv12')
+                    <td scope="row"><button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button></td>
+                    @endif
                 </tr>
                 @endforeach
                 @else
                 <tr>
-                    <td>Empty data</td>
+                    <td scope="row" style="pointer-events: none;">No data</td>
                 </tr>
                 @endif
             </tbody>
         </table>
     </div>
+
+    <!-- Delete confirm modal -->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This action cannot be undone
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary delete-user" data-id="{{ $item['id'] }}">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <span class="d-flex flex-row-reverse">{{ $data->links() }}</span>
+
+
 </section>
+@endsection
+
+@section('after_script')
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        //Trigger nhấn nút xóa
+        $(".delete-user").click(function() {
+
+            var id = $(this).data("id"); //Lấy id
+
+            var url = '{{ route("admin.delete", ":id") }}';
+            url = url.replace(':id', id);
+            //Setup AJAX csrf token
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            //Call AJAX
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                data: id,
+                success: function(res) {
+                    if (res.error === false) {
+                        swal.fire(res.message, '', "success").then(function() {
+                            location.reload();
+                        });
+                    } else {
+                        swal.fire(res.message, '', "error");
+                    }
+                },
+                error: function(res) {
+                    if (res.responseJSON != undefined) {
+                        var mess_error = '';
+                        $.map(res.responseJSON.errors, function(a) {
+                            mess_error = mess_error.concat(a + '<br/>');
+                        });
+                        swal.fire('Delete failed!', mess_error, "error");
+                    }
+                }
+            });
+        });
+    });
+</script>
 @endsection

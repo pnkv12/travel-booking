@@ -125,4 +125,10 @@ class User extends Authenticatable
         return $this->where('id', $update['id'])
             ->update($update);
     }
+
+    public function deleteUser($id)
+    {
+        return $this->where('id', $id)
+            ->delete();
+    }
 }

@@ -14,7 +14,7 @@
             <div class="col-sm-6" style="padding-bottom: 20px">
                 <div class="card text-center">
                     <div class="card-body bg-light">
-                        <a href="#" class="text-dark">
+                        <a href="{{ route('ticket.list') }}" class="text-dark">
                             <h5 class="card-title font-weight-bold"><i class="fas fa-list-ul"></i> Tickets</h5>
                         </a>
                         <p class="card-text">Checkout customer's booking tickets</p>

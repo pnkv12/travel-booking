@@ -12,11 +12,16 @@ $id = auth()->user()->id; //KT khi sign in qua auth
     <link rel="icon" href="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{ asset('assets/libs/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/admin-style.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('assets/css/admin-style.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('assets/libs/fontawesome-free/css/fontawesome.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/fontawesome-free/css/brands.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/fontawesome-free/css/solid.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <style>
+        .nav {
+            font-family: 'Poppins', sans-serif;
+        }
+
         .w-5 {
             display: none;
         }
@@ -57,26 +62,26 @@ $id = auth()->user()->id; //KT khi sign in qua auth
                 </div>
             </nav>
             <nav role="navigation" class="navbar navbar-expand-lg navbar-light bg-info">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="{{ route( 'user.index' ) }}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                            <a class="nav-link font-weight-bold {{ (request()->is('index*')) ? 'active text-info' : 'text-white' }}" href="{{ route( 'user.index' ) }}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="{{ route( 'news.list' ) }}">News</a>
+                            <a class="nav-link font-weight-bold {{ (request()->is('news*')) ? 'active text-info' : 'text-white' }}" href="{{ route( 'news.list' ) }}">News</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="{{ route( 'tours.list' ) }}">Tours</a>
+                            <a class="nav-link font-weight-bold {{ (request()->is('tours*')) ? 'active text-info' : 'text-white' }}" href="{{ route( 'tours.list' ) }}">Tours</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white font-weight-bold" href="{{ route('admin.list') }}">Contacts</a>
+                            <a class="nav-link font-weight-bold {{ (request()->is('admin*')) ? 'active text-info' : 'text-white' }}" href="{{ route('admin.list') }}">Contacts</a>
                         </li>
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <button class="btn btn-light my-2 my-sm-0 font-weight-bold" href="#">Booking Tickets</button>
+                            <button class="btn btn-light my-2 my-sm-0 font-weight-bold" onclick="window.location='{{ route('ticket.list') }}'">Booking Tickets</button>
                         </li>
                     </ul>
                 </div>
@@ -120,7 +125,7 @@ $id = auth()->user()->id; //KT khi sign in qua auth
                             <a href="{{route('user.index')}}" class="text-reset">CMS</a>
                         </p>
                         <p>
-                            <a href="#!" class="text-reset">VietnamGo's homepage</a>
+                            <a href="#" class="text-reset">VietnamGo's homepage</a>
                         </p>
                     </div>
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">

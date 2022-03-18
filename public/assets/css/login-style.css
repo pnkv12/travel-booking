@@ -60,7 +60,7 @@ h1::after {
 }
 
 h1::before {
-    background: black;
+    background: cadetblue;
     animation: typewriter 3s steps(15) 1s forwards;
 }
 h1::after {

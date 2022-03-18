@@ -10,8 +10,8 @@ class NewsTable extends Model
     use HasFactory;
     protected $table = 'news';
     protected $primaryKey = 'id';
-    protected $fillables = ['id', 'title', 'content', 'category_id', 'author', 'photo', 'created_at', 'updated_at', 'is_shown'];
-
+    protected $fillables = ['id', 'title', 'content', 'category_id', 'author', 'created_at', 'updated_at', 'is_shown'];
+    
     public function getList($search)
     {
         $data = $this->select(
@@ -20,18 +20,18 @@ class NewsTable extends Model
             'news.content',
             'news.category_id',
             'news.author',
-            'news.photo',
             'news.created_at',
             'news.is_shown',
             'c.cate_name',
             'u.fullname',
+            'u.username',
         )
             ->leftjoin('category as c', 'news.category_id', '=', 'c.id')
             ->leftjoin('users as u', 'news.author', '=', 'u.id');
         if (!empty($search['query'])) {
             $data->where('news.title', 'LIKE', '%' . $search['query'] . '%')
-                 ->orWhere('c.cate_name', 'LIKE', '%' . $search['query'] . '%')
-                 ->orWhere('u.fullname', 'LIKE', '%' . $search['query'] . '%');
+                ->orWhere('c.cate_name', 'LIKE', '%' . $search['query'] . '%')
+                ->orWhere('u.fullname', 'LIKE', '%' . $search['query'] . '%');
         }
         return $data->paginate(5);
     }
@@ -49,10 +49,10 @@ class NewsTable extends Model
             'news.content',
             'news.category_id',
             'news.author',
-            'news.photo',
             'news.is_shown',
             'c.cate_name',
             'u.fullname',
+            'u.username',
         )
             ->leftjoin('category as c', 'news.category_id', '=', 'c.id')
             ->leftjoin('users as u', 'news.author', '=', 'u.id')
@@ -68,7 +68,6 @@ class NewsTable extends Model
             'news.content',
             'news.category_id',
             'news.author',
-            'news.photo',
             'news.is_shown',
             'c.cate_name',
             'u.fullname',

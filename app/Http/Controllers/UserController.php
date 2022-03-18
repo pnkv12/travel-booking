@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     /* 
-        Confirm Signup
+        Confirm Signup with validation
     */
     public function confirmSignUpAction(RegisterRequest $request)
     {
@@ -205,6 +205,24 @@ class UserController extends Controller
         return response()->json([
             'error'   => false,
             'message' => "Your password changed!"
+        ]);
+    }
+
+    public function deleteUserAction(Request $request)
+    {
+        $id = $request->id;
+
+        try {
+            $this->__user->deleteUser($id);
+        } catch (Exception $ex) {
+            return response()->json([
+                'error'   => true,
+                'message' => $ex->getMessage()
+            ]);
+        }
+        return response()->json([
+            'error'   => false,
+            'message' => "Success!"
         ]);
     }
 }

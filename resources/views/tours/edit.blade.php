@@ -88,7 +88,7 @@
                 </div>
             </div>
             <!-- Details -->
-            <textarea type="text" name="details" class="form-control" rows="10" style="resize:none">{{ nl2br($data['details']) }}</textarea> <br>
+            <textarea type="text" name="details" class="form-control" rows="10" style="resize:none">{!! nl2br(e($data['details']))!!}</textarea> <br>
             <!--Button group-->
             <div class="form-group d-flex justify-content-center">
                 <button type="button" id="submit" class="btn btn-primary btn-lg">Update</button>

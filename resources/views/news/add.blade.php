@@ -40,15 +40,7 @@
             </div>
             <!-- Content -->
             <textarea type="text" name="content" class="form-control" placeholder="Write something..." rows="10" style="resize:none"></textarea> <br>
-            <!-- Photo -->
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="custom-file-label" id="inputGroupFileAddon01">Choose a photo</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="photo" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" accept="jpeg, jpg, png|image/*">
-                </div>
-            </div>
+
             <!-- Button group -->
             <div class="form-group d-flex justify-content-center">
                 <button type="button" id="submit-content" class="btn btn-primary btn-lg">Create</button>
@@ -111,6 +103,7 @@
                         if (res.error === false) {
                             swal.fire(res.message, '', "success").then(function() {
                                 window.location.href = "{{ route('news.list')}}";
+                                
                             });
                         } else {
                             swal.fire(res.message, '', "error").then(function() {

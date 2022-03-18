@@ -10,7 +10,7 @@
 
 <body>
     <div>
-        <h1 style="color: #fda500;">Welcome to OFL!</h1>
+        <h1 style="color: #fda500;">VnGo Dashboard!</h1>
         <form class="box" method="POST" action="{{ route('user.postLogin') }}">
             @csrf
             <div class="form-header" style="margin-top: 30px;">

@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class ToursTable extends Model
 {
     use HasFactory;
+
     protected $table = 'tours';
     protected $primaryKey = 'id';
-    protected $fillables = ['id', 'tour_id', 'name', 'departure', 'return', 'price', 'vehicle', 'details', 'is_active', 'created_at', 'updated_at'];
+    protected $fillables = ['id', 'tour_code', 'name', 'departure', 'return', 'price', 'vehicle', 'details', 'is_active', 'created_at', 'updated_at'];
 
     public function getList($search)
     {
         $data = $this->select(
             'id',
-            'tour_id',
+            'tour_code',
             'name',
             'departure',
             'return',
@@ -27,11 +28,8 @@ class ToursTable extends Model
             'created_at',
         );
         if (!empty($search['query'])) {
-            $data->where('tour_id', '=', $search['query'])
-                 ->orWhere('name', 'LIKE', '%' . $search['query'] . '%');
-        }
-        if (!empty($search['status'])) {
-            $data->where('is_active', $search['status']);
+            $data->where('tour_code', '=', $search['query'])
+                ->orWhere('name', 'LIKE', '%' . $search['query'] . '%');
         }
         if (!empty($search['departure'])) {
             $data->whereBetween('departure', [$search['departure'], $search['return']]);
@@ -52,7 +50,7 @@ class ToursTable extends Model
     {
         $data = $this->select(
             'id',
-            'tour_id',
+            'tour_code',
             'name',
             'departure',
             'return',
@@ -69,7 +67,7 @@ class ToursTable extends Model
     {
         $data = $this->select(
             'id',
-            'tour_id',
+            'tour_code',
             'name',
             'departure',
             'return',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CategoryTable;
 use App\Models\NewsTable;
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,12 +21,12 @@ class NewsController extends Controller
     public function newsListAction(Request $request)
     {
         $search = $request->all();
-        $data = $this->__news->getList($search);
+        $data   = $this->__news->getList($search);
 
         return view('news.list', ['data' => $data]);
     }
 
-    public function addAction()
+    public function addNewsAction()
     {
         $cateTable = app(CategoryTable::class);
         $cate      = $cateTable->getCate();
@@ -33,14 +34,17 @@ class NewsController extends Controller
         return view('news.add', ['cate' => $cate]);
     }
 
-    public function storeAction(Request $request)
+    public function storeNewsAction(Request $request)
     {
         $news = $request->except('_token');
+
         $request->validate([
             'title'       => 'required',
             'content'     => 'required|min:160',
             'category_id' => 'required'
         ]);
+
+
 
         $news['author']     = auth()->user()->id;
         $news['created_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
@@ -48,8 +52,7 @@ class NewsController extends Controller
 
         try {
             $this->__news->addNews($news);
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 'error'   => true,
                 'message' => $ex->getMessage()
@@ -63,13 +66,13 @@ class NewsController extends Controller
 
     public function viewNewsAction(Request $request)
     {
-        $id = $request->id;
+        $id   = $request->id;
         $data = $this->__news->viewNews($id);
 
         return view('news.details', ['data' => $data]);
     }
 
-    public function editAction(Request $request)
+    public function editNewsAction(Request $request)
     {
         $id        = $request->id;
         $data      = $this->__news->getNewsById($id);
@@ -77,7 +80,8 @@ class NewsController extends Controller
         $cateTable = app(CategoryTable::class);
         $cate      = $cateTable->getCate();
 
-        return view('news.edit',
+        return view(
+            'news.edit',
             [
                 'data' => $data,
                 'cate' => $cate
@@ -85,15 +89,14 @@ class NewsController extends Controller
         );
     }
 
-    public function updateAction(Request $request)
+    public function updateNewsAction(Request $request)
     {
         $news               = $request->except('_token');
         $news['updated_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
 
         try {
             $this->__news->updateNews($news);
-        } 
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 'error'   => true,
                 'message' => $ex->getMessage()
@@ -105,14 +108,13 @@ class NewsController extends Controller
         ]);
     }
 
-    public function deleteAction(Request $request)
+    public function deleteNewsAction(Request $request)
     {
         $id = $request->id;
 
         try {
             $this->__news->deleteNews($id);
-        } 
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 'error'   => true,
                 'message' => $ex->getMessage()

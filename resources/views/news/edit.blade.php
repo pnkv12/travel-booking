@@ -3,18 +3,17 @@
 <section>
     <div class="d-flex bd-highlight mb-3" style="padding-top: 15px;">
         <div class="p-2 bd-highlight align-self-center">
-            <h2 class="mb-3" >Edit content ID: {{$data['id']}}</h2>
+            <h2 class="mb-3">Edit content ID: {{$data['id']}}</h2>
         </div>
         <div class="ml-auto p-2 bd-highlight align-self-center">
-            <a href="{{route('news.list')}}"> << Return to list</a>
+            <a href="{{route('news.list')}}">
+                << Return to list</a>
         </div>
     </div>
     <hr class="my-3">
     <div class="form-group">
         <form id="form-data">
             @csrf
-            <input name="id" value="{{ $data['id'] }}" hidden>
-
             <div class="row">
                 <!--Title-->
                 <div class="col">
@@ -43,25 +42,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <!--Content-->
-            <textarea type="text" name="content" class="form-control" rows="10" style="resize:none">{{ nl2br($data['content']) }}</textarea> <br>
-            
-            <!--Cover photo-->
-            @if(isset($data['photo']))
-            <label class="font-weight-bold">Cover Photo:</label>
-            <input type="file" class="form-control-file" name="photo" accept="jpeg, jpg, png|image/*" value="{{$data['photo']}}">
-            @else
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="custom-file-label" id="inputGroupFileAddon01">Choose a photo</span>
-                </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" name="photo" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" accept="jpeg, jpg, png|image/*">
-                </div>
-            </div>
-            @endif
-            
+            <textarea type="text" name="content" class="form-control" rows="10" style="resize:none">{!! nl2br(e($data['content']))!!}</textarea> <br>
+
+            <input name="id" value="{{ $data['id'] }}" hidden>
+
             <!--Button group-->
             <div class="form-group d-flex justify-content-center">
                 <button type="button" id="submit" class="btn btn-primary btn-lg">Update</button>

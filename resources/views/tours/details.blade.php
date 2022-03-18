@@ -22,8 +22,8 @@
     <div class="form-group">
         <div class="col">
             <div class="row">
-                <label class="font-weight-bold">Tour ID: &nbsp;</label>
-                <p class="text-uppercase"> {{ $data['tour_id'] }}</p>
+                <label class="font-weight-bold">Code: &nbsp;</label>
+                <p class="text-uppercase"> {{ $data['tour_code'] }}</p>
             </div>
             <div class="row">
                 <label class="font-weight-bold">Package Name: &nbsp;</label>
@@ -39,21 +39,17 @@
             </div>
             <div class="row">
                 <label class="font-weight-bold">Price: &nbsp;</label>
-                <p class="error font-weight-bold"><big>${{ $data['price'] }}</big></p>       
+                <p class="error font-weight-bold"><big>${{ $data['price'] }}</big></p>
             </div>
             <div class="row">
                 <label class="font-weight-bold">Travel By: &nbsp;</label>
                 <p>
-                    <?php 
-                    if ($data['vehicle' == 0])
-                    {
+                    <?php
+                    if ($data['vehicle' == 0]) {
                         echo "Plane";
-                    }
-                    elseif ($data['vehicle' == 1])
-                    {
+                    } elseif ($data['vehicle' == 1]) {
                         echo "Bus";
-                    }
-                    else {
+                    } else {
                         echo "Ship";
                     }
                     ?>
@@ -61,7 +57,7 @@
             </div>
             <div class="row">
                 <label class="font-weight-bold">Details: &nbsp;</label>
-                <p class="text-justify"> {{ $data['details'] }}</p>
+                <p class="text-justify pb-5"> {!! nl2br(e($data['details']))!!}</p>
             </div>
         </div>
 

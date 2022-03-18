@@ -63,3 +63,7 @@ ul.nav li:last-child {
     background-color: #5c7ae2;
     height: 10px;
 }
+
+.a:active {
+    background-color: blanchedalmond;
+}

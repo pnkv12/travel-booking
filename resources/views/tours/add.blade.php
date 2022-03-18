@@ -15,15 +15,6 @@
         <form id="form-data">
             @csrf
             <div class="row">
-                <!-- Tour ID -->
-                <div class="col">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Tour ID:<span class="error">*</span>
-                        </div>
-                        <input type="text" class="form-control" name="tour_id" value="T00">
-                    </div>
-                </div>
                 <!-- Package Name -->
                 <div class="col">
                     <div class="input-group mb-3">
@@ -68,7 +59,7 @@
                 <div class="col">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Travel By:<span class="error">*</label>
+                            <label class="input-group-text" for="inputGroupSelect01">Travel By:<span class="error">*</span></label>
                         </div>
                         <select class="custom-select" id="inputGroupSelect01" name="vehicle">
                             <option value="" hidden>Select one...</option>
@@ -85,7 +76,7 @@
             <!-- Button group -->
             <div class="form-group d-flex justify-content-center">
                 <button type="button" id="submit-content" class="btn btn-primary btn-lg">Create</button>
-                <button type="button" class="btn btn-link btn-lg" onclick="window.location='{{ route('news.list') }}'">Cancel</button>
+                <button type="button" class="btn btn-link btn-lg" onclick="window.location='{{ route('tours.list') }}'">Cancel</button>
             </div>
         </form>
     </div>
@@ -108,9 +99,9 @@
             //validate form
             form.validate({
                 rules: {
-                    tour_id: {
-                        required: true,
-                    },
+                    // tour_code: {
+                    //     required: true,
+                    // },
                     name: {
                         required: true,
                     },
@@ -131,9 +122,9 @@
                     },
                 },
                 messages: {
-                    tour_id: {
-                        required: 'Tour ID is required',
-                    },
+                    // tour_code: {
+                    //     required: 'Tour Code is required',
+                    // },
                     name: {
                         required: 'Package name is required',
                     },

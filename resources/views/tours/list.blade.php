@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('content')
-<section>
+<section style="height: 35em;">
     <h2 class="mb-3" style="padding-top: 15px;">Tour Packages <a href="{{ route('tours.add') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i></a></h2>
     <hr class="my-3">
     <div>
@@ -10,17 +10,6 @@
                     <div class="row" style="width:95%">
                         <div class="col">
                             <input type="text" name="query" class="form-control rounded" placeholder="Keywords..." aria-describedby="search-addon" />
-                        </div>
-                        <div class="col">
-                            <select class="form-control" name="status">
-                                <option value="" hidden>Status</option>
-                                <option <?php if (isset($_GET['is_active']) && $_GET['is_active'] == '0') {
-                                                        echo 'selected';
-                                                    } ?> value="0">Available</option>
-                                <option <?php if (isset($_GET['is_active']) && $_GET['is_active'] == '1') {
-                                                        echo 'selected';
-                                                    } ?> value="1">Sold Out</option>
-                            </select>
                         </div>
                         <div class="col d-inline-flex">
                             <label for="departure" class="align-self-end">From:&nbsp;</label>
@@ -43,8 +32,8 @@
     <div class="table-content" style="padding-top: 9px;">
         <table class="table table-hover">
             <thead class="bg-info text-light">
-                <th scope="col">ID</th>
-                <th scope="col">Tour ID</th>
+                <!-- <th scope="col">ID</th> -->
+                <th scope="col">Code</th>
                 <th scope="col">Package Name</th>
                 <th scope="col">Departure Date</th>
                 <th scope="col">Return Date</th>
@@ -56,8 +45,8 @@
                 @if(!empty($data))
                 @foreach($data as $item)
                 <tr>
-                    <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['id']}}</td>
-                    <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['tour_id']}}</td>
+                    <td scope="row" hidden>{{$item['id']}}</td>
+                    <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['tour_code']}}</td>
                     <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['name']}}</td>
                     <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['departure']}}</td>
                     <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['return']}}</td>
@@ -73,7 +62,7 @@
                             <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="cursor: pointer;">
                                 <a class="dropdown-item" onclick="window.location=' {{ route("tours.edit", $item['id']) }} '" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
-                                <a class="dropdown-item btn-delete" id="btn-delete" data-id="{{ $item['id'] }}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             </div>
                         </div>
                     </td>
@@ -88,6 +77,27 @@
         </table>
     </div>
     <span class="d-flex flex-row-reverse">{{ $data->links() }}</span>
+
+    <!-- Confirm delete tour with modal -->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    This action cannot be undone
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary delete-tour" data-id="{{ $item['id'] }}">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @endsection
 @section('after_script')
@@ -95,12 +105,12 @@
     $(document).ready(function() {
 
         //Trigger nhấn nút xóa
-        $(".btn-delete").click(function() {
+        $(".delete-tour").click(function() {
 
             var id = $(this).data("id"); //Lấy id
 
             var url = '{{ route("tours.delete", ":id") }}';
-            url = url.replace(':id', id); //replace ':id' thành id admin
+            url = url.replace(':id', id);
             //Setup AJAX csrf token
             $.ajaxSetup({
                 headers: {

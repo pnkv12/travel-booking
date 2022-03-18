@@ -13,7 +13,8 @@
             @endif
         </div>
         <div class="ml-auto p-2 bd-highlight align-self-center">
-            <a href="{{route('news.list')}}"> << Return to list</a>
+            <a href="{{route('news.list')}}">
+                << Return to list</a>
         </div>
     </div>
 
@@ -34,14 +35,8 @@
             </div>
         </div>
         <label class="font-weight-bold">Content:</label>
-        <p class="text-justify">{{ $data['content'] }}</p>
+        <p class="text-justify pb-5">{!! nl2br(e($data['content']))!!}</p>
 
-        <label class="font-weight-bold">Cover Photo:</label>
-        @if(isset($data['photo']))
-        <img src="{{$data['photo']}}" alt="">
-        @else
-        <p>No photo available</p>
-        @endif
     </div>
 </section>
 @endsection
