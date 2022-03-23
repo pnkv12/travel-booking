@@ -21,7 +21,15 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Package Name:<span class="error">*</span>
                         </div>
-                        <input type="text" class="form-control" name="name" placeholder="Name here..." aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" name="name" placeholder="Name here..." aria-describedby="basic-addon1" autofocus>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Slots:<span class="error">*</span>
+                        </div>
+                        <input type="number" class="form-control" name="slots" aria-describedby="basic-addon1" autofocus>
                     </div>
                 </div>
             </div>
@@ -99,9 +107,6 @@
             //validate form
             form.validate({
                 rules: {
-                    // tour_code: {
-                    //     required: true,
-                    // },
                     name: {
                         required: true,
                     },
@@ -120,11 +125,12 @@
                     details: {
                         minlength: 160,
                     },
+                    slots: {
+                        required: true,
+                    },
                 },
                 messages: {
-                    // tour_code: {
-                    //     required: 'Tour Code is required',
-                    // },
+
                     name: {
                         required: 'Package name is required',
                     },
@@ -142,6 +148,9 @@
                     },
                     details: {
                         minlength: 'Must be at least 160 characters',
+                    },
+                    slots: {
+                        required: 'Cannot be empty',
                     },
                 }
             });

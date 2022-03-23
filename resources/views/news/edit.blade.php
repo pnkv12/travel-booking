@@ -3,7 +3,8 @@
 <section>
     <div class="d-flex bd-highlight mb-3" style="padding-top: 15px;">
         <div class="p-2 bd-highlight align-self-center">
-            <h2 class="mb-3">Edit content ID: {{$data['id']}}</h2>
+            <h2 class="mb-3">Edit content
+            </h2>
         </div>
         <div class="ml-auto p-2 bd-highlight align-self-center">
             <a href="{{route('news.list')}}">
@@ -38,6 +39,19 @@
                             </option>
                             @endforeach
                             @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Status:</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01" name="is_shown">
+                            <option value="0" <?php if ($data['state'] == 0) echo 'selected';
+                                                else echo ''; ?>>Published</option>
+                            <option value="1" <?php if ($data['state'] == 1) echo 'selected';
+                                                else echo ''; ?>>Hidden</option>
                         </select>
                     </div>
                 </div>

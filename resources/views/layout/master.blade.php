@@ -53,9 +53,8 @@ $id = auth()->user()->id; //KT khi sign in qua auth
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ route('admin.profile', $id) }}"><i class="fas fa-user"></i> Profile</a>
                             <a class="dropdown-item" href="{{ route('admin.changepw', $id) }}"><i class="fas fa-key"></i> Change Password</a>
-
                             <hr class="my-2">
-                            <a class="dropdown-item error" href="{{ route('user.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            <a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>
                     </div>
                 </div>

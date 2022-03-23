@@ -55,9 +55,18 @@
                 <label class="font-weight-bold">Email: &nbsp;</label>
                 <p> {{ $data['email'] }}</p>
             </div>
+
             <div class="row">
                 <label class="font-weight-bold">Address: &nbsp;</label>
                 <p> {{ $data['address'] }}</p>
+            </div>
+            <div class="row">
+                <label class="font-weight-bold">Expected Slot(s): &nbsp;</label>
+                <p> {{ $data['members'] }}</p>
+            </div>
+            <div class="row">
+                <label class="font-weight-bold">Total: &nbsp;</label>
+                <p> {{ $data['total_price'] }}</p>
             </div>
             <div class="row pb-5">
                 <label class="font-weight-bold">Notes: &nbsp;</label>

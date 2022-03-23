@@ -11,7 +11,7 @@ class ToursTable extends Model
 
     protected $table = 'tours';
     protected $primaryKey = 'id';
-    protected $fillables = ['id', 'tour_code', 'name', 'departure', 'return', 'price', 'vehicle', 'details', 'is_active', 'created_at', 'updated_at'];
+    protected $fillables = ['id', 'tour_code', 'name', 'departure', 'return', 'price', 'vehicle', 'details', 'slots', 'created_at', 'updated_at'];
 
     public function getList($search)
     {
@@ -24,7 +24,7 @@ class ToursTable extends Model
             'price',
             'vehicle',
             'details',
-            'is_active',
+            'slots',
             'created_at',
         );
         if (!empty($search['query'])) {
@@ -57,7 +57,7 @@ class ToursTable extends Model
             'price',
             'vehicle',
             'details',
-            'is_active',
+            'slots',
         )
             ->where('id', $id);
         return $data->first();
@@ -74,7 +74,7 @@ class ToursTable extends Model
             'price',
             'vehicle',
             'details',
-            'is_active',
+            'slots',
         )
             ->where('id', $id);
         return $data->first();

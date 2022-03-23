@@ -65,5 +65,9 @@ Route::group(
             Route::get('details/{id}', [BookingController::class, 'viewTicketAction'])->name('ticket.details');
             Route::post('update', [BookingController::class, 'updateStateAction'])->name('ticket.update');
         });
+        Route::prefix('upload')->group(function () {
+            Route::get('/', [ImageController::class, 'uploadPhotoAction'])->name('image.upload');
+            Route::post('/', [ImageController::class, 'postPhotoAction'])->name('image.post');
+        });
     }
 );

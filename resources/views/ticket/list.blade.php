@@ -9,13 +9,24 @@
             <form method="GET" action="" class="form-group">
                 <div class="form-row">
                     <div class="input-group rounded">
-                        <input type="text" name="query" class="form-control rounded" placeholder="Search" aria-describedby="search-addon" style="width:40%" />
-                        <select name="state" class="form-control rounded" style="margin-left: 10px;" title="Ticket's state">
+
+                        <!-- Search by name, code, phone -->
+                        <input type="text" name="query" class="form-control rounded" placeholder="Search" aria-describedby="search-addon" style="width:40%; margin-right: 1rem;" />
+
+                        <!-- Search by Ticket's state -->
+                        <select name="state" class="form-control rounded" style="margin-right: 1rem;">
                             <option value="" hidden>State</option>
-                            <option value="0">New</option>
-                            <option value="1">In Progress</option>
-                            <option value="2">Done</option>
+                            <option <?php if (isset($_GET['state']) && $_GET['state'] == '0') {
+                                        echo 'selected';
+                                    } ?> value="0">New</option>
+                            <option <?php if (isset($_GET['state']) && $_GET['state'] == '1') {
+                                        echo 'selected';
+                                    } ?> value="1">In Progress</option>
+                            <option <?php if (isset($_GET['state']) && $_GET['state'] == '2') {
+                                        echo 'selected';
+                                    } ?> value="2">Done</option>
                         </select>
+
                         <span id="search-addon">
                             <button type="submit" class="btn btn-link text-info"><i class="fas fa-search"></i></button>
                         </span>
@@ -52,11 +63,11 @@
                     <td scope="row" style="cursor: pointer" onclick="window.location='{{ route("ticket.details", $item['ticket_id']) }}'">{{$item['phone']}}</td>
 
                     @if($item['state'] == 0)
-                    <td scope="row"><span class="badge badge-success" name="state">New</span></td>
+                    <td scope="row"><span class="badge badge-success">New</span></td>
                     @elseif($item['state'] == 1)
-                    <td scope="row"><span class="badge badge-warning text-light" name="state">In Progress</span></td>
+                    <td scope="row"><span class="badge badge-warning text-light">In Progress</span></td>
                     @else($item['state'] == 2)
-                    <td scope="row"><span class="badge badge-info text-light" name="state">Done</span></td>
+                    <td scope="row"><span class="badge badge-info text-light">Done</span></td>
                     @endif
 
                     <td scope="row">{{$item['created_at']}}</td>

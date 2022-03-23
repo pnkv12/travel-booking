@@ -34,15 +34,15 @@ class ToursController extends Controller
     {
         $tour = $request->except('_token');
         $request->validate([
-            // 'tour_code'   => 'required|unique:tours',
             'name'      => 'required',
             'departure' => 'required',
             'return'    => 'required',
             'price'     => 'required',
             'vehicle'   => 'required',
             'details'   => 'min:160',
+            'slots'     => 'required'
         ]);
-        $tour['is_active']  = 0;
+
         $tour['tour_code'] = Str::random(6);
         $tour['created_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
 

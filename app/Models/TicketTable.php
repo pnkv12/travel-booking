@@ -10,7 +10,7 @@ class TicketTable extends Model
     use HasFactory;
     protected $table = 'booking-ticket';
     protected $primaryKey = 'ticket_id';
-    protected $fillables = ['ticket_id', 'cus_id', 'phone', 'tour_id', 'state', 'created_at', 'updated_at'];
+    protected $fillables = ['ticket_id', 'cus_id', 'phone', 'tour_id', 'state', 'total_price', 'created_at', 'updated_at'];
 
     public function getList($search)
     {
@@ -21,6 +21,7 @@ class TicketTable extends Model
             'booking-ticket.tour_id',
             'booking-ticket.state',
             'booking-ticket.created_at',
+            'booking-ticket.total_price',
             't.tour_code',
             'c.firstname',
             'c.lastname',
@@ -52,12 +53,14 @@ class TicketTable extends Model
             'booking-ticket.phone',
             'booking-ticket.tour_id',
             'booking-ticket.state',
+            'booking-ticket.total_price',
             't.tour_code',
             'c.firstname',
             'c.lastname',
             'c.phone',
             'c.email',
             'c.address',
+            'c.members',
             'c.notes'
         )
             ->leftjoin('tours as t', 'booking-ticket.tour_id', '=', 't.id')

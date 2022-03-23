@@ -35,18 +35,14 @@
                         <input type="number" step=".01" class="form-control" name="price" aria-describedby="basic-addon1" value="{{$data['price']}}">
                     </div>
                 </div>
-                <!--Status-->
+                <!--Slots-->
                 <div class="col-md-3">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Status:</label>
+                            <label class="input-group-text" for="inputGroupSelect01">Slots:</label>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01" name="is_active">
-                            <option value="0" <?php if ($data['is_active'] == 0) echo 'selected';
-                                                else echo ''; ?>>Available</option>
-                            <option value="1" <?php if ($data['is_active'] == 1) echo 'selected';
-                                                else echo ''; ?>>Sold Out</option>
-                        </select>
+                        <input type="number" class="form-control" name="slots" aria-describedby="basic-addon1" value="{{$data['slots']}}">
+
                     </div>
                 </div>
             </div>

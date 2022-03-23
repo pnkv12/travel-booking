@@ -38,7 +38,7 @@
                 <th scope="col">Departure Date</th>
                 <th scope="col">Return Date</th>
                 <th scope="col">Price ($)</th>
-                <th scope="col">Status</th>
+                <th scope="col">Slots</th>
                 <th scope="col"> </th>
             </thead>
             <tbody>
@@ -51,21 +51,21 @@
                     <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['departure']}}</td>
                     <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['return']}}</td>
                     <td scope="row" onclick="window.location='{{ route("tours.details", $item['id']) }}'" style="cursor: pointer">{{$item['price']}}</td>
-                    @if($item['is_active'] == 0)
-                    <td scope="row" style="cursor: default;"><span class="badge bg-success text-light">Available</span></td>
-                    @else
-                    <td scope="row" style="cursor: default;"><span class="badge bg-warning text-light">Sold Out</span></td>
-                    @endif
 
-                    <td scope="row">
-                        <div class="dropdown">
-                            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="cursor: pointer;">
-                                <a class="dropdown-item" onclick="window.location=' {{ route("tours.edit", $item['id']) }} '" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
-                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                    @if($item['slots'] <= 5) <td scope="row" class="text-danger" style="cursor: pointer">{{$item['slots']}}</td>
+                        @else
+                        <td scope="row" style="cursor: pointer">{{$item['slots']}}</td>
+                        @endif
+
+                        <td scope="row">
+                            <div class="dropdown">
+                                <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="cursor: pointer;">
+                                    <a class="dropdown-item" onclick="window.location=' {{ route("tours.edit", $item['id']) }} '" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
+                                    <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
                 </tr>
                 @endforeach
                 @else
@@ -92,7 +92,7 @@
                     This action cannot be undone
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary delete-tour" data-id="{{ $item['id'] }}">Confirm</button>
+                    <button type="button" class="btn btn-primary delete-tour" data-id="{{ $data ['id'] }}">Confirm</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
