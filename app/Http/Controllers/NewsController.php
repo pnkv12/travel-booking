@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryTable;
+use App\Models\ImageTable;
 use App\Models\NewsTable;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -18,6 +20,7 @@ class NewsController extends Controller
         $this->__news = $news;
     }
 
+    //Show toàn bộ danh sách News
     public function newsListAction(Request $request)
     {
         $search = $request->all();
@@ -26,14 +29,15 @@ class NewsController extends Controller
         return view('news.list', ['data' => $data]);
     }
 
+    //Mở trang Add News
     public function addNewsAction()
     {
         $cateTable = app(CategoryTable::class);
         $cate      = $cateTable->getCate();
-
         return view('news.add', ['cate' => $cate]);
     }
 
+    //Sau khi bấm Create, Xử lý data của news trước khi đưa vào db
     public function storeNewsAction(Request $request)
     {
         $news = $request->except('_token');
@@ -41,12 +45,12 @@ class NewsController extends Controller
         $request->validate([
             'title'       => 'required',
             'content'     => 'required|min:160',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'photo'       => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-
-
         $news['author']     = auth()->user()->id;
+        $news['views'] = 0;
         $news['created_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
         $news['is_shown']   = 0;
 

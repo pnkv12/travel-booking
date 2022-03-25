@@ -10,8 +10,8 @@ class NewsTable extends Model
     use HasFactory;
     protected $table = 'news';
     protected $primaryKey = 'id';
-    protected $fillables = ['id', 'title', 'content', 'category_id', 'author', 'created_at', 'updated_at', 'is_shown'];
-    
+    protected $fillable = ['id', 'title', 'content', 'category_id', 'author', 'photo', 'created_at', 'updated_at', 'is_shown', 'views'];
+
     public function getList($search)
     {
         $data = $this->select(
@@ -38,7 +38,7 @@ class NewsTable extends Model
 
     public function addNews($data)
     {
-        return $this->insert($data);
+        return $this->create($data)->{$this->primaryKey};
     }
 
     public function viewNews($id)
@@ -48,6 +48,7 @@ class NewsTable extends Model
             'news.title',
             'news.content',
             'news.category_id',
+            'news.photo',
             'news.author',
             'news.is_shown',
             'c.cate_name',
