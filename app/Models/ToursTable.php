@@ -11,12 +11,13 @@ class ToursTable extends Model
 
     protected $table = 'tours';
     protected $primaryKey = 'id';
-    protected $fillables = ['id', 'tour_code', 'name', 'departure', 'return', 'price', 'vehicle', 'details', 'slots', 'created_at', 'updated_at'];
+    protected $fillables = ['id', 'photo_id', 'tour_code', 'name', 'departure', 'return', 'price', 'vehicle', 'details', 'slots', 'created_at', 'updated_at'];
 
     public function getList($search)
     {
         $data = $this->select(
             'id',
+            'photo_id',
             'tour_code',
             'name',
             'departure',
@@ -49,16 +50,20 @@ class ToursTable extends Model
     public function viewTour($id)
     {
         $data = $this->select(
-            'id',
-            'tour_code',
-            'name',
-            'departure',
-            'return',
-            'price',
-            'vehicle',
-            'details',
-            'slots',
+            'tours.id',
+            'tours.photo_id',
+            'tours.tour_code',
+            'tours.name',
+            'tours.departure',
+            'tours.return',
+            'tours.price',
+            'tours.vehicle',
+            'tours.details',
+            'tours.slots',
+            'i.photo_id',
+            'i.photo_name'
         )
+            ->leftjoin('images as i', 'tours.photo_id', '=', 'i.photo_id')
             ->where('id', $id);
         return $data->first();
     }
@@ -66,16 +71,20 @@ class ToursTable extends Model
     public function getTourById($id)
     {
         $data = $this->select(
-            'id',
-            'tour_code',
-            'name',
-            'departure',
-            'return',
-            'price',
-            'vehicle',
-            'details',
-            'slots',
+            'tours.id',
+            'tours.photo_id',
+            'tours.tour_code',
+            'tours.name',
+            'tours.departure',
+            'tours.return',
+            'tours.price',
+            'tours.vehicle',
+            'tours.details',
+            'tours.slots',
+            'i.photo_id',
+            'i.photo_name'
         )
+            ->leftjoin('images as i', 'tours.photo_id', '=', 'i.photo_id')
             ->where('id', $id);
         return $data->first();
     }

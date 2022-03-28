@@ -59,13 +59,11 @@
                             <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="cursor: pointer;">
                                 <a class="dropdown-item" onclick="window.location=' {{ route("news.edit", $item['id']) }} '" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
-                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete_{{ $item['id'] }}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             </div>
                         </div>
                     </td>
                     @endif
-
-
                 </tr>
                 @endforeach
                 @else
@@ -78,12 +76,13 @@
     </div>
     <span class="d-flex flex-row-reverse">{{ $data->links() }}</span>
 
+    @foreach($data as $item)
     <!-- Confirm delete news with modal -->
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete_{{ $item['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure {{ $item['id'] }}?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -98,6 +97,8 @@
             </div>
         </div>
     </div>
+    @endforeach
+
 </section>
 @endsection
 @section('after_script')

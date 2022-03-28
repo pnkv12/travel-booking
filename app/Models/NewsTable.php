@@ -10,7 +10,7 @@ class NewsTable extends Model
     use HasFactory;
     protected $table = 'news';
     protected $primaryKey = 'id';
-    protected $fillable = ['id', 'title', 'content', 'category_id', 'author', 'photo', 'created_at', 'updated_at', 'is_shown', 'views'];
+    protected $fillable = ['id', 'title', 'content', 'category_id', 'author', 'photo_id', 'created_at', 'updated_at', 'is_shown', 'views'];
 
     public function getList($search)
     {
@@ -48,15 +48,17 @@ class NewsTable extends Model
             'news.title',
             'news.content',
             'news.category_id',
-            'news.photo',
+            'news.photo_id',
             'news.author',
             'news.is_shown',
             'c.cate_name',
             'u.fullname',
             'u.username',
+            'i.photo_name'
         )
             ->leftjoin('category as c', 'news.category_id', '=', 'c.id')
             ->leftjoin('users as u', 'news.author', '=', 'u.id')
+            ->leftjoin('images as i', 'news.photo_id', '=', 'i.photo_id')
             ->where('news.id', $id);
         return $data->first();
     }
@@ -69,12 +71,16 @@ class NewsTable extends Model
             'news.content',
             'news.category_id',
             'news.author',
+            'news.photo_id',
             'news.is_shown',
             'c.cate_name',
             'u.fullname',
+            'i.photo_id',
+            'i.photo_name',
         )
             ->leftjoin('category as c', 'news.category_id', '=', 'c.id')
             ->leftjoin('users as u', 'news.author', '=', 'u.id')
+            ->leftjoin('images as i', 'news.photo_id', '=', 'i.photo_id')
             ->where('news.id', $id);
         return $data->first();
     }
@@ -87,7 +93,7 @@ class NewsTable extends Model
 
     public function deleteNews($id)
     {
-        return $this->where('news.id', $id)
+        return $this->where('news.id', $id)->first()
             ->delete();
     }
 }

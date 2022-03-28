@@ -48,9 +48,9 @@
                             <label class="input-group-text" for="inputGroupSelect01">Status:</label>
                         </div>
                         <select class="custom-select" id="inputGroupSelect01" name="is_shown">
-                            <option value="0" <?php if ($data['state'] == 0) echo 'selected';
+                            <option value="0" <?php if ($data['is_shown'] == 0) echo 'selected';
                                                 else echo ''; ?>>Published</option>
-                            <option value="1" <?php if ($data['state'] == 1) echo 'selected';
+                            <option value="1" <?php if ($data['is_shown'] == 1) echo 'selected';
                                                 else echo ''; ?>>Hidden</option>
                         </select>
                     </div>
@@ -60,6 +60,16 @@
             <!--Content-->
             <textarea type="text" name="content" class="form-control" rows="10" style="resize:none">{!! nl2br(e($data['content']))!!}</textarea> <br>
 
+            <div>
+                <select class="custom-select" id="inputGroupSelect01" name="photo_id" style="width:30%">
+                    <option value="" hidden>Select photo from library...</option>
+                    <option value="0">No photo</option>
+                    @foreach($photo as $photoItem)
+                    <option value="{{ $photoItem['photo_id'] }}" <?php if ($data['photo_id'] != 0 && $photoItem['photo_id'] == $data['photo_id']) echo 'selected';
+                                                                    else echo ''; ?>>{{ $photoItem['photo_name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
             <input name="id" value="{{ $data['id'] }}" hidden>
 
             <!--Button group-->

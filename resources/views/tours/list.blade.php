@@ -62,7 +62,7 @@
                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="cursor: pointer;">
                                     <a class="dropdown-item" onclick="window.location=' {{ route("tours.edit", $item['id']) }} '" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
-                                    <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                    <a class="dropdown-item text-danger" data-toggle="modal" data-target="#confirm-delete_{{ $item['id'] }}"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                                 </div>
                             </div>
                         </td>
@@ -79,7 +79,8 @@
     <span class="d-flex flex-row-reverse">{{ $data->links() }}</span>
 
     <!-- Confirm delete tour with modal -->
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @foreach($data as $item)
+    <div class="modal fade" id="confirm-delete_{{ $item['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,6 +99,7 @@
             </div>
         </div>
     </div>
+    @endforeach
 </section>
 @endsection
 @section('after_script')

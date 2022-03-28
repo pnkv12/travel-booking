@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ToursController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,13 @@ Route::group(
             Route::get('/', [BookingController::class, 'listAction'])->name('ticket.list');
             Route::get('details/{id}', [BookingController::class, 'viewTicketAction'])->name('ticket.details');
             Route::post('update', [BookingController::class, 'updateStateAction'])->name('ticket.update');
+        });
+
+        Route::get('/upload', [PhotoController::class, 'openUploadView'])->name('page.upload');
+        Route::post('/upload', [PhotoController::class, 'postPhoto'])->name('deliver.upload');
+
+        Route::prefix('photo')->group(function () {
+            Route::delete('delete/{id}', [PhotoController::class, 'delete'])->name('photo.delete');
         });
     }
 );

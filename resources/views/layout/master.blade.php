@@ -17,6 +17,7 @@ $id = auth()->user()->id; //KT khi sign in qua auth
     <link href="{{ asset('assets/libs/fontawesome-free/css/brands.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/fontawesome-free/css/solid.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
     <style>
         .nav {
             font-family: 'Poppins', sans-serif;
@@ -53,6 +54,8 @@ $id = auth()->user()->id; //KT khi sign in qua auth
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ route('admin.profile', $id) }}"><i class="fas fa-user"></i> Profile</a>
                             <a class="dropdown-item" href="{{ route('admin.changepw', $id) }}"><i class="fas fa-key"></i> Change Password</a>
+                            <a class="dropdown-item" href="{{ route('page.upload') }}"><i class="fas fa-image"></i>Photo Library</a>
+
                             <hr class="my-2">
                             <a class="dropdown-item text-danger" href="{{ route('user.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                         </div>

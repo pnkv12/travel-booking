@@ -85,6 +85,16 @@
             </div>
             <!-- Details -->
             <textarea type="text" name="details" class="form-control" rows="10" style="resize:none">{!! nl2br(e($data['details']))!!}</textarea> <br>
+            <div>
+                <select class="custom-select" id="inputGroupSelect01" name="photo_id" style="width:30%">
+                    <option value="" hidden>Select photo from library...</option>
+                    <option value="0">No photo</option>
+                    @foreach($photo as $photoItem)
+                    <option value="{{ $photoItem['photo_id'] }}" <?php if ($data['photo_id'] != 0 && $photoItem['photo_id'] == $data['photo_id']) echo 'selected';
+                                                                    else echo ''; ?>>{{ $photoItem['photo_name'] }}</option>
+                    @endforeach
+                </select>
+            </div>
             <!--Button group-->
             <div class="form-group d-flex justify-content-center">
                 <button type="button" id="submit" class="btn btn-primary btn-lg">Update</button>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ImageTable;
 use App\Models\ToursTable;
 use Carbon\Carbon;
 use Exception;
@@ -27,7 +28,10 @@ class ToursController extends Controller
 
     public function addTourAction()
     {
-        return view('tours.add');
+        $photoTable = app(ImageTable::class);
+        $photo      = $photoTable->getPhotoID();
+
+        return view('tours.add', ['photo' => $photo]);
     }
 
     public function storeTourAction(Request $request) //storeTourInput
@@ -73,7 +77,10 @@ class ToursController extends Controller
         $id        = $request->id;
         $data      = $this->__tour->getTourById($id);
 
-        return view('tours.edit', ['data' => $data]);
+        $photoTable = app(ImageTable::class);
+        $photo      = $photoTable->getPhotoID();
+
+        return view('tours.edit', ['data' => $data, 'photo' => $photo]);
     }
 
     public function updateTourAction(Request $request)

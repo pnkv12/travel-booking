@@ -42,8 +42,14 @@
             <!-- Content -->
             <textarea type="text" name="content" class="form-control" placeholder="Write something..." rows="10" style="resize:none"></textarea> <br>
 
-            <input type="file" class="form-control" name="photo" />
-            <br>
+            <select class="custom-select" id="inputGroupSelect01" name="photo_id" style="width:30%">
+                <option value="" hidden>Select photo from library...</option>
+                @foreach($photo as $photoItem)
+                <option value="{{ $photoItem['photo_id'] }}">{{ $photoItem['photo_name'] }}</option>
+                @endforeach
+            </select>
+
+            <br />
             <!-- Button group -->
             <div class="form-group d-flex justify-content-center">
                 <button type="button" id="submit-content" class="btn btn-primary btn-lg">Create</button>

@@ -34,7 +34,11 @@ class NewsController extends Controller
     {
         $cateTable = app(CategoryTable::class);
         $cate      = $cateTable->getCate();
-        return view('news.add', ['cate' => $cate]);
+
+        $photoTable = app(ImageTable::class);
+        $photo      = $photoTable->getPhotoID();
+
+        return view('news.add', ['cate' => $cate, 'photo' => $photo]);
     }
 
     //Sau khi bấm Create, Xử lý data của news trước khi đưa vào db
@@ -46,7 +50,6 @@ class NewsController extends Controller
             'title'       => 'required',
             'content'     => 'required|min:160',
             'category_id' => 'required',
-            'photo'       => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         $news['author']     = auth()->user()->id;
@@ -84,11 +87,15 @@ class NewsController extends Controller
         $cateTable = app(CategoryTable::class);
         $cate      = $cateTable->getCate();
 
+        $photoTable = app(ImageTable::class);
+        $photo      = $photoTable->getPhotoID();
+
         return view(
             'news.edit',
             [
                 'data' => $data,
-                'cate' => $cate
+                'cate' => $cate,
+                'photo' => $photo
             ]
         );
     }

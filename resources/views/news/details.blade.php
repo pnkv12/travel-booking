@@ -20,6 +20,12 @@
 
     <hr class="my-3">
     <div class="form-group">
+        @if ($data['photo_id']== 0)
+        <p>No photo available</p>
+        @else
+        <img src="{{asset('storage/image/'.$data['photo_name'])}}" width="100%" />
+        @endif
+        <hr>
         <div class="row">
             <div class="col">
                 <label class="font-weight-bold">Title:</label>

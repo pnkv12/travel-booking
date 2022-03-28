@@ -24,6 +24,13 @@
         <div class="row" style="width:80%">
             <div class="col">
                 <div class="row">
+                    @if ($data['photo_id']== 0)
+                    <p>No photo available</p>
+                    @else
+                    <img src="{{asset('storage/image/'.$data['photo_name'])}}" width="80%" />
+                    @endif
+                </div>
+                <div class="row">
                     <label class="font-weight-bold">Code: &nbsp;</label>
                     <p class="text-uppercase"> {{ $data['tour_code'] }}</p>
                 </div>

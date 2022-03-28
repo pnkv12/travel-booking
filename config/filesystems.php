@@ -37,8 +37,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => public_path('storage/image'),
+            'url' => env('APP_URL') . 'storage/image',
             'visibility' => 'public',
         ],
 
