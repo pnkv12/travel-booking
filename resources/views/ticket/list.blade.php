@@ -46,6 +46,7 @@
                 <th scope="col">Phone</th>
                 <th scope="col">State</th>
                 <th scope="col">Created At</th>
+                <th scope="col">Payment</th>
             </thead>
             <tbody>
                 @if(count($data) > 0)
@@ -63,14 +64,15 @@
                     <td scope="row" style="cursor: pointer" onclick="window.location='{{ route("ticket.details", $item['ticket_id']) }}'">{{$item['phone']}}</td>
 
                     @if($item['state'] == 0)
-                    <td scope="row"><span class="badge badge-success">New</span></td>
+                    <td scope="row"><span class="badge badge-secondary">New</span></td>
                     @elseif($item['state'] == 1)
-                    <td scope="row"><span class="badge badge-warning text-light">In Progress</span></td>
+                    <td scope="row"><span class="badge badge-success text-light">Confirmed</span></td>
                     @else($item['state'] == 2)
-                    <td scope="row"><span class="badge badge-info text-light">Done</span></td>
+                    <td scope="row"><span class="badge badge-danger text-light">Canceled</span></td>
                     @endif
 
                     <td scope="row">{{$item['created_at']}}</td>
+                    <td scope="row">{{$item['payment']}}</td>
                 </tr>
                 @endforeach
                 @else

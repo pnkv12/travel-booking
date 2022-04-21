@@ -15,9 +15,9 @@
                             <option value="0" <?php if ($data['state'] == 0) echo 'selected';
                                                 else echo ''; ?>>New</option>
                             <option value="1" <?php if ($data['state'] == 1) echo 'selected';
-                                                else echo ''; ?>>In Progress</option>
+                                                else echo ''; ?>>Confirmed</option>
                             <option value="2" <?php if ($data['state'] == 2) echo 'selected';
-                                                else echo ''; ?>>Done</option>
+                                                else echo ''; ?>>Canceled</option>
                         </select>
                         <button type="button" id="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></button>
                     </div>
