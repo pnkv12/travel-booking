@@ -1,4 +1,9 @@
-@extends('layout.master')
+<?php
+$role = auth()->user()->role;
+$username = auth()->user()->username;
+?>
+
+@extends($role ==="Admin" ? 'layout.master' : 'layout.collab-layout')
 @section('content')
 <section style="height: 40em">
     <div class="d-flex justify-content-between">
@@ -20,9 +25,6 @@
         </div>
     </div>
     <hr class="my-3">
-    <?php
-    $username = auth()->user()->username;
-    ?>
     <div class="table-content" style="padding-top: 9px;">
         <table class="table table-hover">
             <thead class="bg-info text-light">
@@ -53,7 +55,7 @@
                     <td scope="row" style="cursor: default;"><span class="badge bg-secondary text-light">Hidden</span></td>
                     @endif
 
-                    @if ($username === $item['username'] || $username === 'pnkv12')
+                    @if ($username === $item['username'] || $role === 'Admin')
                     <td scope="row">
                         <div class="dropdown">
                             <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>

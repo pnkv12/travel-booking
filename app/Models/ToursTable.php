@@ -30,6 +30,7 @@ class ToursTable extends Model
         );
         if (!empty($search['query'])) {
             $data->where('tour_code', '=', $search['query'])
+                ->orWhere('details', 'LIKE', '%' . $search['query'] . '%')
                 ->orWhere('name', 'LIKE', '%' . $search['query'] . '%');
         }
         if (!empty($search['departure'])) {

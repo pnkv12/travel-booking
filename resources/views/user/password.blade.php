@@ -1,4 +1,7 @@
-@extends('layout.master')
+<?php
+$role = auth()->user()->role;
+?>
+@extends($role ==="Admin" ? 'layout.master' : 'layout.collab-layout')
 @section('content')
 <section style="height: 470px">
     <h2 class="mb-3" style="padding-top: 15px;">Change Password</h2>
@@ -20,7 +23,6 @@
             </div>
             <div class="p-2 bd-highlight">
                 <button type="button" id="submitbtn" class="btn btn-primary">Change</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location=' {{ route('user.index', $data['id']) }} '">Cancel</button>
             </div>
         </form>
 </section>
@@ -56,7 +58,7 @@
                     minlength: 'At least 6 characters'
                 },
                 password_confirmation: {
-                    required: 'Confirmation is required', 
+                    required: 'Confirmation is required',
                     equalTo: 'Password is not match'
                 },
             }
@@ -71,7 +73,7 @@
                 success: function(res) {
                     if (res.error === false) {
                         swal.fire(res.message, '', "success").then(function() {
-                            window.location.href = "{{ route('user.index')}}";
+                            window.location.href = "{{ route('admin.changepw', $data['id'])}}";
                         });
                     } else {
                         swal.fire(res.message, '', "error").then(function() {

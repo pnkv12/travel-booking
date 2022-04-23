@@ -68,26 +68,14 @@ $role = auth()->user()->role; //KT khi sign in qua auth
                 <div class="collapse navbar-collapse">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link font-weight-bold {{ (request()->is('main*')) ? 'active text-info' : 'text-white' }}" href="/main"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                            <a class="nav-link font-weight-bold {{ (request()->is('collab*')) ? 'active text-info' : 'text-white' }}" href="{{ route('user.collab') }}"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link font-weight-bold {{ (request()->is('news*')) ? 'active text-info' : 'text-white' }}" href="{{ route( 'news.list' ) }}">News</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link font-weight-bold {{ (request()->is('tours*')) ? 'active text-info' : 'text-white' }}" href="{{ route( 'tours.list' ) }}">Tours</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link font-weight-bold {{ (request()->is('admin*')) ? 'active text-info' : 'text-white' }}" href="{{ route('admin.list') }}">Contacts</a>
-                        </li>
                     </ul>
                 </div>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <button class="btn btn-light my-2 my-sm-0 font-weight-bold" onclick="window.location='{{ route('ticket.list') }}'">Booking Tickets</button>
-                        </li>
-                    </ul>
-                </div>
+
             </nav>
     </main>
     @yield('content')
@@ -125,7 +113,7 @@ $role = auth()->user()->role; //KT khi sign in qua auth
                             Project Components
                         </h6>
                         <p>
-                            <a href="<?php $role == "Admin" ? "/main" : "/collab" ?>" class="text-reset">CMS</a>
+                            <a href="{{route('user.collab')}}" class="text-reset">CMS</a>
                         </p>
                         <p>
                             <a href="#" class="text-reset">VietnamGo's homepage</a>

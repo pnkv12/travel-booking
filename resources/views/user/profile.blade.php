@@ -1,4 +1,7 @@
-@extends('layout.master')
+<?php
+$role = auth()->user()->role;
+?>
+@extends($role ==="Admin" ? 'layout.master' : 'layout.collab-layout')
 @section('content')
 <section style="height: 470px">
     <div class="d-flex">

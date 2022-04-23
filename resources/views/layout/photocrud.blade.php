@@ -1,4 +1,7 @@
-@extends('layout.master')
+<?php
+$role = auth()->user()->role;
+?>
+@extends($role ==="Admin" ? 'layout.master' : 'layout.collab-layout')
 @section('content')
 
 <div class="d-flex justify-content-between">
@@ -25,7 +28,6 @@
             <th scope="col">ID</th>
             <th scope="col">Preview</th>
             <th scope="col">Name</th>
-            <th scope="col">Size</th>
             <th scope="col"></th>
 
         </thead>
@@ -36,7 +38,6 @@
                 <td scope="row">{{$photo['photo_id']}}</td>
                 <td scope="row" style="cursor: pointer" data-toggle="modal" data-target="#popup-photo_{{$photo['photo_id']}}"><img src="{{asset('storage/image/'.$photo->photo_name)}}" class="description" width="500px" /></td>
                 <td scope="row" class="font-weight-bold">{{$photo['photo_name']}}</td>
-                <td scope="row">{{$photo['size']}}</td>
                 <td scope="row">
                     <a class="btn btn-link text-danger" data-toggle="modal" data-target="#confirm-delete_{{$photo['photo_id']}}" data-item-id="{{$photo['photo_id']}}"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 </td>

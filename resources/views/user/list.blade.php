@@ -1,5 +1,18 @@
+<?php
+$role = auth()->user()->role;
+if ($role === "Collab") {
+    echo "You're not allowed, please go back.";
+    return redirect()->back();
+};
+?>
 @extends('layout.master')
 @section('content')
+<style>
+    #edit-role:hover {
+        color: blue;
+        cursor: pointer;
+    }
+</style>
 <section style="height: 35em;">
     <div class="d-flex justify-content-between">
         <div>
@@ -22,7 +35,6 @@
 
     <hr class="my-3">
     <?php
-    $username = auth()->user()->username;
     ?>
     <div class="table-content" style="padding-top: 9px;">
         <table class="table table-striped">
@@ -32,9 +44,8 @@
                 <th scope="col">Username</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                @if ($username === 'pnkv12')
+                <th scope="col">Role</th>
                 <th></th>
-                @endif
             </thead>
             <tbody>
                 @if(isset($data))
@@ -44,11 +55,10 @@
                     <td scope="row">{{$item['fullname']}}</td>
                     <td scope="row">{{$item['username']}}</td>
                     <td scope="row"> <a href="#">{{$item['email']}}</a></td>
-                    <td scope="row">{{$item['phone']}}</td>
+                    <td scope="row" class="text-center">{{$item['phone']}}</td>
+                    <td scope="row" id="edit-role" class="text-center" data-toggle="modal" data-target="#change-role_{{ $item['id'] }}">{{$item['role']}}</td>
 
-                    @if ($username === 'pnkv12')
                     <td scope="row"><button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirm-delete_{{ $item['id'] }}"><i class="fas fa-trash-alt"></i></button></td>
-                    @endif
                 </tr>
                 @endforeach
                 @else
@@ -83,6 +93,39 @@
     </div>
     @endforeach
 
+    <!-- Change Role popup -->
+    @foreach($data as $item)
+    <div class="modal fade" id="change-role_{{ $item['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change this user's role</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="changeRole">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $item['id'] }}" id="user-id">
+                        <!-- <input type="text" name="username" value="{{ $item['username'] }}"> -->
+                        <select name="role" id="role" class="custom-select">
+                            <option value="Admin" <?php if ($item['role'] === "Admin") echo 'selected';
+                                                    else echo ''; ?>>Admin</option>
+                            <option value="Collab" <?php if ($item['role'] === "Collab") echo 'selected';
+                                                    else echo ''; ?>>Collab</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" form="changeRole" class="btn btn-primary confirm-role" data-id="{{ $item['id'] }}">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+
     <span class="d-flex flex-row-reverse">{{ $data->links() }}</span>
 </section>
 @endsection
@@ -90,7 +133,6 @@
 @section('after_script')
 <script type="text/javascript">
     $(document).ready(function() {
-
         //Trigger nhấn nút xóa
         $(".delete-user").click(function() {
 
@@ -129,6 +171,52 @@
                     }
                 }
             });
+        });
+
+        // Trigger nút change role
+        $('.confirm-role').click(function() {
+            //trigger form data
+            var form = $('.changeRole');
+
+            //setup csrf for ajax
+            $.ajaxSetup({
+                headers: {
+                    //get csrf from content of meta tag
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            if (form.valid()) {
+                $('.confirm-role').attr('disabled', true);
+                $.ajax({
+                    url: '{{ route("admin.changerole") }}',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function(res) {
+                        if (res.error === false) {
+                            swal.fire(res.message, '', "success").then(function() {
+                                $('.changeRole').trigger("reset");
+                                window.location.reload(true);
+                            });
+                        } else {
+                            swal.fire(res.message, '', "error").then(function() {
+                                $('.confirm-role').attr('disabled', false);
+                            });
+                        }
+                    },
+                    error: function(res) {
+                        if (res.responseJSON != undefined) {
+                            var mess_error = '';
+                            $.map(res.responseJSON.errors, function(a) {
+                                mess_error = mess_error.concat(a + '<br/>');
+                            });
+                            swal.fire('Role failed to change!', mess_error, "error").then(function() {
+                                $('.confirm-role').attr('disabled', false);
+                            });
+                        }
+                    }
+                });
+            }
         });
     });
 </script>

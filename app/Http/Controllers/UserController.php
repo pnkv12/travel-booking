@@ -39,6 +39,7 @@ class UserController extends Controller
         $user               = $request->except('_token');
         $user['password']   = Hash::make($user['password']);
         $user['created_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
+        $user['role'] = "Collab";
 
         $request->validate([
             'fullname'    => 'required',
@@ -57,20 +58,39 @@ class UserController extends Controller
     }
 
     /* 
-        Open login page
+        [GET]/login
     */
     public function loginAction()
     {
 
         if (!empty(auth()->user())) {
-            return redirect()->route('user.index');
+            if (auth()->user()->role == "Admin") {
+                return redirect()->to('/main');
+            } else {
+                return redirect()->to('/collab');
+            }
+            // return redirect()->route('user.main');
         } else {
             return view('user.login-form');
         };
     }
 
     /* 
-        Confirm login
+        [GET]/admin
+    */
+    public function adminAction()
+    {
+        return view('user.index');
+    }
+
+    // [GET]/collab
+    public function collabAction()
+    {
+        return view('user.collab-index');
+    }
+
+    /* 
+       [POST]/postLogin
     */
     public function postLoginAction(LoginRequest $request)
     {
@@ -79,23 +99,22 @@ class UserController extends Controller
             'password' => $request->password,
         ];
 
+        // $role = auth()->user()->role;
+
         if (Auth::attempt($login)) {
-            return redirect()->route('user.index');
+            if (auth()->user()->role == "Admin") {
+                return redirect()->to('/main');
+            } else {
+                return redirect()->to('/collab');
+            }
         } else {
             return redirect()->back()->with('status', 'Username or Password is incorrect.');
         }
     }
 
-    /* 
-        Admin Dashboard
-    */
-    public function indexAction()
-    {
-        return view('user.index');
-    }
 
     /* 
-        Logout
+        [GET]/logout
     */
     public function logoutAction()
     {
@@ -223,6 +242,24 @@ class UserController extends Controller
         return response()->json([
             'error'   => false,
             'message' => "Success!"
+        ]);
+    }
+
+    public function changeRoleAction(Request $request)
+    {
+        $role               = $request->except('_token');
+        $role['updated_at'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:00');
+        try {
+            $this->__user->changeRole($role);
+        } catch (Exception $ex) {
+            return response()->json([
+                'error'   => true,
+                'message' => $ex->getMessage()
+            ]);
+        }
+        return response()->json([
+            'error'   => false,
+            'message' => "Role changed."
         ]);
     }
 }

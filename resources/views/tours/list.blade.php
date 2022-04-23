@@ -1,3 +1,10 @@
+<?php
+$role = auth()->user()->role;
+if ($role === "Collab") {
+    echo "You're not allowed, please go back.";
+    return redirect()->back();
+};
+?>
 @extends('layout.master')
 @section('content')
 <section style="height: 35em;">
@@ -56,7 +63,6 @@
                         @else
                         <td scope="row" style="cursor: pointer">{{$item['slots']}}</td>
                         @endif
-
                         <td scope="row">
                             <div class="dropdown">
                                 <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>

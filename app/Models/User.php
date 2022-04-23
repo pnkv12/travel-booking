@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'password_confirmation',
         'phone',
+        'role',
         'created_at',
         'updated_at'
     ];
@@ -63,11 +64,14 @@ class User extends Authenticatable
             'fullname',
             'username',
             'email',
-            'phone'
+            'phone',
+            'role'
         );
         if (!empty($search['query'])) {
             $data->where('fullname', 'LIKE', '%' . $search['query'] . '%')
                 ->orWhere('id', '=', $search['query'])
+                ->orWhere('email', 'LIKE', '%' . $search['query'] . '%')
+                ->orWhere('phone', 'LIKE', '%' . $search['query'] . '%')
                 ->orWhere('username', 'LIKE', '%' . $search['query'] . '%');
         }
         return $data->paginate(5);
@@ -81,7 +85,8 @@ class User extends Authenticatable
             'username',
             'fullname',
             'email',
-            'phone'
+            'phone',
+            'role'
         )
             ->where('id', $id);
         return $data->first();
@@ -95,7 +100,8 @@ class User extends Authenticatable
             'username',
             'fullname',
             'email',
-            'phone'
+            'phone',
+            'role'
         )
             ->where('id', $id);
         return $data->first();
@@ -130,5 +136,11 @@ class User extends Authenticatable
     {
         return $this->where('id', $id)
             ->delete();
+    }
+
+    public function changeRole($role)
+    {
+        return $this->where('id', $role['id'])
+            ->update($role);
     }
 }

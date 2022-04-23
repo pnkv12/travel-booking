@@ -29,7 +29,8 @@ Route::group(
         'middleware' => ['web', 'auth']
     ],
     function () {
-        Route::get('/index',  [UserController::class, 'indexAction'])->name('user.index');
+        Route::get('/main',  [UserController::class, 'adminAction'])->name('user.main');
+        Route::get('/collab',  [UserController::class, 'collabAction'])->name('user.collab');
         Route::get('/logout', [UserController::class, 'logoutAction'])->name('user.logout');
 
         Route::prefix('admin')->group(function () {
@@ -40,6 +41,7 @@ Route::group(
             Route::get('changepassword/{id}', [UserController::class, 'changePWAction'])->name('admin.changepw');
             Route::post('confirmchange', [UserController::class, 'confirmPWAction'])->name('admin.confirmchange');
             Route::delete('delete/{id}', [UserController::class, 'deleteUserAction'])->name('admin.delete');
+            Route::post('change-role', [UserController::class, 'changeRoleAction'])->name('admin.changerole');
         });
         Route::prefix('news')->group(function () {
             Route::get('/', [NewsController::class, 'newsListAction'])->name('news.list');

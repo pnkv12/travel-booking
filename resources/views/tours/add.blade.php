@@ -1,3 +1,10 @@
+<?php
+$role = auth()->user()->role;
+if ($role === "Collab") {
+    echo "You're not allowed, please go back.";
+    return redirect()->back();
+};
+?>
 @extends('layout.master')
 @section('content')
 <section class="content">
