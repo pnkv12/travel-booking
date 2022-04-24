@@ -24,7 +24,7 @@ class UserController extends Controller
     }
 
     /* 
-        Open signup page
+        [GET]/signup
     */
     public function signupAction()
     {
@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     /* 
-        Confirm Signup with validation
+        [POST]/confirmSignUp
     */
     public function confirmSignUpAction(RegisterRequest $request)
     {
@@ -59,31 +59,34 @@ class UserController extends Controller
 
     /* 
         [GET]/login
+        Different redirect based on roles
     */
     public function loginAction()
     {
-
         if (!empty(auth()->user())) {
             if (auth()->user()->role == "Admin") {
-                return redirect()->to('/main');
+                return redirect('/main');
             } else {
-                return redirect()->to('/collab');
+                return redirect('/collab');
             }
-            // return redirect()->route('user.main');
         } else {
             return view('user.login-form');
         };
     }
 
     /* 
-        [GET]/admin
+        [GET]/main
+        Authorized
     */
     public function adminAction()
     {
         return view('user.index');
     }
 
-    // [GET]/collab
+    /* 
+        [GET]/collab
+        Authorized
+    */
     public function collabAction()
     {
         return view('user.collab-index');
@@ -99,13 +102,12 @@ class UserController extends Controller
             'password' => $request->password,
         ];
 
-        // $role = auth()->user()->role;
-
         if (Auth::attempt($login)) {
+            // After login, check role for dashboard redirect
             if (auth()->user()->role == "Admin") {
-                return redirect()->to('/main');
+                return redirect('/main');
             } else {
-                return redirect()->to('/collab');
+                return redirect('/collab');
             }
         } else {
             return redirect()->back()->with('status', 'Username or Password is incorrect.');
@@ -123,7 +125,7 @@ class UserController extends Controller
     }
 
     /* 
-        Show Admin contacts list
+        [GET]/admin
     */
     public function viewAction(Request $request)
     {
@@ -134,7 +136,8 @@ class UserController extends Controller
     }
 
     /* 
-        Show each Admin's profile
+        [GET]/admin/profile/{id}
+        Show user's personal profile
         Authorized
     */
     public function profileAction(Request $request)
@@ -147,7 +150,8 @@ class UserController extends Controller
     }
 
     /* 
-        Show edit page for Admin's profile
+        [GET]/admin/edit/{id}
+        User edit their own details
         Authorized
     */
     public function editAdAction(Request $request)
@@ -160,7 +164,7 @@ class UserController extends Controller
     }
 
     /* 
-        Update Admin's profile
+        [POST]/admin/update
     */
     public function updateAction(Request $request)
     {
@@ -187,7 +191,7 @@ class UserController extends Controller
     }
 
     /* 
-        Change password in an admin account
+        [GET]/admin/changepassword/{id}
         Authorized
     */
     public function changePWAction(Request $request)
@@ -200,7 +204,7 @@ class UserController extends Controller
     }
 
     /* 
-        Confirm password change
+        [POST]/admin/confirmchange
     */
     public function confirmPWAction(Request $request)
     {
@@ -227,6 +231,9 @@ class UserController extends Controller
         ]);
     }
 
+    /* 
+        [DELETE]/admin/delete/{id}
+    */
     public function deleteUserAction(Request $request)
     {
         $id = $request->id;
@@ -245,6 +252,10 @@ class UserController extends Controller
         ]);
     }
 
+    /* 
+        [POST]/admin/change-role
+        Admin account can change role of any user
+    */
     public function changeRoleAction(Request $request)
     {
         $role               = $request->except('_token');

@@ -43,6 +43,7 @@ Route::group(
             Route::delete('delete/{id}', [UserController::class, 'deleteUserAction'])->name('admin.delete');
             Route::post('change-role', [UserController::class, 'changeRoleAction'])->name('admin.changerole');
         });
+
         Route::prefix('news')->group(function () {
             Route::get('/', [NewsController::class, 'newsListAction'])->name('news.list');
             Route::get('add', [NewsController::class, 'addNewsAction'])->name('news.add');

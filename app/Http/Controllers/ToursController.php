@@ -18,6 +18,9 @@ class ToursController extends Controller
         $this->__tour = $tour;
     }
 
+    /* 
+        [GET]/tours
+    */
     public function tourListAction(Request $request)
     {
         $search = $request->all();
@@ -26,6 +29,9 @@ class ToursController extends Controller
         return view('tours.list', ['data' => $data]);
     }
 
+    /* 
+        [GET]/tours/add
+    */
     public function addTourAction()
     {
         $photoTable = app(ImageTable::class);
@@ -34,6 +40,9 @@ class ToursController extends Controller
         return view('tours.add', ['photo' => $photo]);
     }
 
+    /* 
+        [POST]/tours/store
+    */
     public function storeTourAction(Request $request) //storeTourInput
     {
         $tour = $request->except('_token');
@@ -64,6 +73,9 @@ class ToursController extends Controller
         ]);
     }
 
+    /* 
+        [GET]/tours/details/{id}
+    */
     public function viewTourAction(Request $request)
     {
         $id = $request->id;
@@ -72,6 +84,9 @@ class ToursController extends Controller
         return view('tours.details', ['data' => $data]);
     }
 
+    /* 
+        [GET]/tours/edit/{id}
+    */
     public function editTourAction(Request $request)
     {
         $id        = $request->id;
@@ -83,6 +98,9 @@ class ToursController extends Controller
         return view('tours.edit', ['data' => $data, 'photo' => $photo]);
     }
 
+    /* 
+        [POST]/tours/update
+    */
     public function updateTourAction(Request $request)
     {
         $tour               = $request->except('_token');
@@ -102,6 +120,9 @@ class ToursController extends Controller
         ]);
     }
 
+    /* 
+        [DELETE]/tours/delete/{id}
+    */
     public function deleteTourAction(Request $request)
     {
         $id = $request->id;

@@ -11,10 +11,10 @@ $role = auth()->user()->role;
     <div class="d-flex align-self-end">
         <form method="POST" action="{{route('deliver.upload')}}" enctype="multipart/form-data">
             @csrf
-            <div class="form-row">
+            <div class="form-row ">
                 <div class="input-group rounded">
-                    <input type="file" class="form-control" name="photo">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <input type="file" class="form-control" name="photo" multiple>
+                    <button type="submit" class="btn btn-primary" style="margin-left:1rem"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
         </form>
@@ -29,7 +29,6 @@ $role = auth()->user()->role;
             <th scope="col">Preview</th>
             <th scope="col">Name</th>
             <th scope="col"></th>
-
         </thead>
         <tbody>
             @if(!empty($image))

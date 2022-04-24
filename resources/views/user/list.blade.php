@@ -108,7 +108,6 @@ if ($role === "Collab") {
                     <form class="changeRole">
                         @csrf
                         <input type="hidden" name="id" value="{{ $item['id'] }}" id="user-id">
-                        <!-- <input type="text" name="username" value="{{ $item['username'] }}"> -->
                         <select name="role" id="role" class="custom-select">
                             <option value="Admin" <?php if ($item['role'] === "Admin") echo 'selected';
                                                     else echo ''; ?>>Admin</option>
@@ -173,7 +172,7 @@ if ($role === "Collab") {
             });
         });
 
-        // Trigger nút change role
+        // Trigger change role
         $('.confirm-role').click(function() {
             //trigger form data
             var form = $('.changeRole');

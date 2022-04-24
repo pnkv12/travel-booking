@@ -20,7 +20,9 @@ class NewsController extends Controller
         $this->__news = $news;
     }
 
-    //Show toàn bộ danh sách News
+    /* 
+        [GET]/news
+    */
     public function newsListAction(Request $request)
     {
         $search = $request->all();
@@ -29,7 +31,10 @@ class NewsController extends Controller
         return view('news.list', ['data' => $data]);
     }
 
-    //Mở trang Add News
+    /* 
+        [GET]/news/add
+        Joint with category and photo table
+    */
     public function addNewsAction()
     {
         $cateTable = app(CategoryTable::class);
@@ -41,7 +46,10 @@ class NewsController extends Controller
         return view('news.add', ['cate' => $cate, 'photo' => $photo]);
     }
 
-    //Sau khi bấm Create, Xử lý data của news trước khi đưa vào db
+    /* 
+        [POST]/news/store
+        Handle data before pushing into db
+    */
     public function storeNewsAction(Request $request)
     {
         $news = $request->except('_token');
@@ -71,6 +79,9 @@ class NewsController extends Controller
         ]);
     }
 
+    /* 
+        [GET]/news/details/{id}
+    */
     public function viewNewsAction(Request $request)
     {
         $id   = $request->id;
@@ -79,6 +90,10 @@ class NewsController extends Controller
         return view('news.details', ['data' => $data]);
     }
 
+    /* 
+        [GET]/news/edit/{id}
+        Joint with category and photo table
+    */
     public function editNewsAction(Request $request)
     {
         $id        = $request->id;
@@ -100,6 +115,9 @@ class NewsController extends Controller
         );
     }
 
+    /* 
+        [POST]/news/update
+    */
     public function updateNewsAction(Request $request)
     {
         $news               = $request->except('_token');
@@ -119,6 +137,9 @@ class NewsController extends Controller
         ]);
     }
 
+    /* 
+        [DELETE]/news/delete/{id}
+    */
     public function deleteNewsAction(Request $request)
     {
         $id = $request->id;

@@ -16,6 +16,9 @@ class BookingController extends Controller
         $this->__ticket = $ticket;
     }
 
+    /* 
+        [GET]/ticket
+    */
     public function listAction(Request $request)
     {
         $search = $request->all();
@@ -24,6 +27,9 @@ class BookingController extends Controller
         return view('ticket.list', ['data' => $data]);
     }
 
+    /* 
+        [GET]/ticket/details/{id}
+    */
     public function viewTicketAction(Request $request)
     {
         $id = $request->id;
@@ -32,6 +38,10 @@ class BookingController extends Controller
         return view('ticket.details', ['data' => $data]);
     }
 
+    /* 
+        [POST]/ticket/update
+        For admin to manually update the status of the ticket
+    */
     public function updateStateAction(Request $request)
     {
         $state               = $request->except('_token');
