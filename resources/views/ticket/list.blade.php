@@ -21,10 +21,10 @@
                                     } ?> value="0">New</option>
                             <option <?php if (isset($_GET['state']) && $_GET['state'] == '1') {
                                         echo 'selected';
-                                    } ?> value="1">In Progress</option>
+                                    } ?> value="1">Confirmed</option>
                             <option <?php if (isset($_GET['state']) && $_GET['state'] == '2') {
                                         echo 'selected';
-                                    } ?> value="2">Done</option>
+                                    } ?> value="2">Canceled</option>
                         </select>
 
                         <span id="search-addon">

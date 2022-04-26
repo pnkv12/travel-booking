@@ -99,7 +99,7 @@ if ($role === "Collab") {
                     This action cannot be undone
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary delete-tour" data-id="{{ $data ['id'] }}">Confirm</button>
+                    <button type="button" class="btn btn-primary delete-tour" data-id="{{ $item['id'] }}">Confirm</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -116,6 +116,7 @@ if ($role === "Collab") {
         $(".delete-tour").click(function() {
 
             var id = $(this).data("id"); //Lấy id
+            console.log(id);
 
             var url = '{{ route("tours.delete", ":id") }}';
             url = url.replace(':id', id);

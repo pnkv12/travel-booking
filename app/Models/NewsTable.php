@@ -38,7 +38,7 @@ class NewsTable extends Model
 
     public function addNews($data)
     {
-        return $this->create($data)->{$this->primaryKey};
+        return $this->insert($data);
     }
 
     public function viewNews($id)
