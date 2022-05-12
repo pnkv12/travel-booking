@@ -72,7 +72,7 @@
                     @endif
 
                     <td scope="row">{{$item['created_at']}}</td>
-                    <td scope="row">{{$item['payment']}}</td>
+                    <td scope="row">{{$item['payment']/100}}</td>
                 </tr>
                 @endforeach
                 @else

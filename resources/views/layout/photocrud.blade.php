@@ -1,5 +1,6 @@
 <?php
 $role = auth()->user()->role;
+
 ?>
 @extends($role ==="Admin" ? 'layout.master' : 'layout.collab-layout')
 @section('content')
